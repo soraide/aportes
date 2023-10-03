@@ -1,0 +1,158 @@
+{
+  "0xc01":{
+    "title": "PRÉSTAMO DE CONSUMO",
+    "garante":"NO",
+    "tipo":"CONSUMO",
+    "formulario": [
+      {
+        "input":"number",
+        "label":"Monto de préstamo solicitado en <b>Bs.</b>",
+        "placeholder":"Monto",
+        "id":"monto"
+      },
+      {
+        "input":"text",
+        "label":"Motivo del préstamo",
+        "placeholder":"Descripción corta",
+        "id":"motivo"
+      },
+      {
+        "input":"number",
+        "label":"Plazo <b>en meses</b>",
+        "placeholder":"Plazo",
+        "id":"plazo"
+      },
+      {
+        "input":"text",
+        "label":"Nro. Cuenta. Banco Unión (para abono)",
+        "placeholder":"100XXXX",
+        "id": "nroCta"
+      }
+    ],
+    "requisitos":[
+      "Form. COC. 005 llenado a pulso con letra imprenta con bolígrafo azul",
+      "Papeleta de pago del solicitante en copia legalizada, correspondiente al último mes de pago, rubricada.",
+      "Form. “C.A.S.” R.L. 006: llenado a pulso letra imprenta, dando cumplimiento a los requisitos del mismo. (en caso de que no haya regularizado su situación como asociado del “C.A.S.” R.L.).",
+      "Fotocopia de C.I. del Solicitante rubricada(vigente) para el préstamo.",
+      "Fotocopias de C.M. rubricada (vigente)"
+    ]
+  },
+  "0xe08":{
+    "title": "PRÉSTAMO DE EMERGENCIA",
+    "garante":"NO",
+    "tipo":"EMERGENCIA",
+    "formulario": [
+      {
+        "input":"number",
+        "label":"Monto de préstamo solicitado en <b>Bs.</b>",
+        "placeholder":"Monto",
+        "id":"monto"
+      },
+      {
+        "input":"text",
+        "label":"Motivo del préstamo",
+        "placeholder":"Descripción corta",
+        "id":"motivo"
+      },
+      {
+        "input":"number",
+        "label":"Plazo <b>en meses</b>",
+        "placeholder":"Plazo",
+        "id":"plazo"
+      },
+      {
+        "input":"text",
+        "label":"Nro. Cuenta. Banco Unión (para abono)",
+        "placeholder":"100XXXX",
+        "id":"nroCta"
+      }
+    ],
+    "requisitos":[
+      "Form. “C.A.S.” R.L. 003 llenado a pulso letra imprenta con bolígrafo azul.",
+      "Papeleta de pago del solicitante en copia legalizada, correspondiente al último mes de pago, rubricad",
+      "Form. “C.A.S.” R.L. 006 llenado a pulso letra imprenta, con bolígrafo azul, dando cumplimiento a los requisitos del mismo. (en caso de que no haya regularizado su situación como asociado del “C.A.S.” R.L).",
+      "Fotocopia de C.I. del Solicitante rubricada (vigente) para el préstamo.",
+      "Fotocopias de C.M. rubricada (vigente)."
+    ]
+  },
+  "0xa03":{
+    "title": "PRÉSTAMO AUXILIO",
+    "garante":"NO",
+    "tipo":"AUXILIO",
+    "formulario": [
+      {
+        "input":"number",
+        "label":"Monto de préstamo solicitado en <b>Bs.</b>",
+        "placeholder":"Monto",
+        "id":"monto"
+      },
+      {
+        "input":"text",
+        "label":"Motivo del préstamo",
+        "placeholder":"Descripción corta",
+        "id":"motivo"
+      },
+      {
+        "input":"number",
+        "label":"Plazo <b>en meses</b>",
+        "placeholder":"Plazo",
+        "id":"plazo"
+      },
+      {
+        "input":"text",
+        "label":"Nro. Cuenta. Banco Unión (para abono)",
+        "placeholder":"100XXXX",
+        "id":"nroCta"
+      }
+    ],
+    "requisitos":[
+      "Form. “C.A.S.” R.L. 004 llenado a pulso letra imprenta con bolígrafo azul.",
+      "Papeleta de pago del solicitante en copia legalizada, correspondiente al último mes de pago, rubricad",
+      "Form. “C.A.S.” R.L. 006: llenado a pulso letra imprenta, con bolígrafo azul, dando cumplimiento a los requisitos del mismo. (en caso de que no haya regularizado su situación como asociado del “C.A.S.” R.L).",
+      "Fotocopia de C.I. del Solicitante rubricada (vigente) para el préstamo.",
+      "Fotocopias de C.M. rubricada (vigente)."
+    ]
+  },
+  "0xr07":{
+    "title": "PRÉSTAMO REGULAR",
+    "garante":"SI",
+    "tipo":"REGULAR",
+    "formulario": [
+      {
+        "input":"number",
+        "label":"Monto de préstamo solicitado en <b>Bs.</b>",
+        "placeholder":"Monto",
+        "id":"monto"
+      },
+      {
+        "input":"text",
+        "label":"Motivo del préstamo",
+        "placeholder":"Descripción corta",
+        "id":"motivo"
+      },
+      {
+        "input":"number",
+        "label":"Plazo <b>en meses</b>",
+        "placeholder":"Plazo",
+        "id":"plazo"
+      },
+      {
+        "input":"text",
+        "label":"Nro. Cuenta. Banco Unión (para abono)",
+        "placeholder":"100XXXX",
+        "id":"nroCta"
+      }
+    ],
+    "requisitos":[
+      "Carta de solicitud a la Presidencia del “C.A.S.” R.L., especificando el motivo del préstamo.",
+      "Form. “C.A.S.” R.L. 001 llenado a pulso letra imprenta con bolígrafo azul.",
+      "Form. “C.A.S.” R.L. 002 (Contrato) llenado a pulso letra imprenta con bolígrafo azul, firmado por PRESTATARIOS y GARANTES (Dos garantes estos deberán ser asociadas y/o asociados del “C.A.S.” R.L.). para el file respectivo.",
+      "Form. “C.A.S.” R.L. 006 llenado a pulso letra imprenta, dando cumplimiento a los requisitos del mismo",
+      "Papeleta del solicitante en copia legalizada, correspondiente al último mes de pago, rubricada.",
+      "Fotocopias de Papeletas de Pago de los garantes, correspondiente al último mes de pago, rubricadas.",
+      "Fotocopias de C.I. del Solicitante y Garantes rubricadas (vigentes), para Préstamo.",
+      "Fotocopias de C.M. del Solicitante y Garantes, rubricadas (vigentes).",
+      "En caso de que los garantes no hayan regularizado su situación como asociados del “C.A.S.” R.L. deberán dar cumplimiento al Inc. “d”."
+    ]
+  }
+}

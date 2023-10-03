@@ -1,0 +1,7 @@
+NUEVO PAG              ||   Antiguo
+#4fb291 claro          || 
+#243f56 oscuro         ||  #222d32  
+#00294c Contraste Titu ||  #1a2226
+#1e282c Oscuro Hover   || #1a2e3e
+#1c3142 SubMenu        || #2c3b41
+|| #3c8dbc
