@@ -37,6 +37,7 @@ if(isset($_SESSION['idSocio'])){
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
   <!-- MDB -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
+  <link href="../static/css/multi-steps.css" rel="stylesheet" />
   <script src="../static/js/sweetalert2.min.js"></script>
   <style>
     .register{
@@ -72,6 +73,331 @@ if(isset($_SESSION['idSocio'])){
       </div>
     </div>
   </div>
+  <!-- Multi step form --> 
+  <section class="">
+    <div class="container">
+      <div class="card">
+        <div class="card-header mt-5">
+          <div class="wizard">
+            <div class="wizard-inner">
+              <div class="connecting-line"></div>
+              <ul class="nav nav-tabs" role="tablist">
+                  <li role="presentation" class="active">
+                      <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Step 1</i></a>
+                  </li>
+                  <li role="presentation" class="disabled">
+                      <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Step 2</i></a>
+                  </li>
+                  <li role="presentation" class="disabled">
+                      <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab">3</span> <i>Step 3</i></a>
+                  </li>
+                  <li role="presentation" class="disabled">
+                      <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab">4</span> <i>Step 4</i></a>
+                  </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row justify-content-center">
+              <div class="col-md-8">
+                  <div class="wizard">
+                          <div class="tab-content" id="main_form">
+                              <div class="tab-pane active" role="tabpanel" id="step1">
+                                  <h4 class="text-center">Datos Personales</h4>
+                                  <div class="row mb-4 mt-4">
+                                    <div class="col-md-12">
+                                      <div class="form-outline">
+                                        <input type="text" class="form-control form-control-lg" name="nombres" required />
+                                        <label class="form-label">Nombres</label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                      <div class="form-outline">
+                                        <input type="text" class="form-control form-control-lg" name="paterno" required>
+                                        <label class="form-label">Ap. Paterno</label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 ps-0 mt-3">
+                                      <div class="form-outline">
+                                        <input type="text" class="form-control form-control-lg" name="materno" required>
+                                        <label class="form-label">Ap. Materno</label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-9 mt-3">
+                                      <div class="form-outline">
+                                        <input type="text" class="form-control form-control-lg" name="ci" required />
+                                        <label class="form-label">Cédula de Identidad</label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3 mt-3">
+                                      <div class="form-outline">
+                                          <select id="extension_ci" name="expedido" class="form-select form-control-lg" required>
+                                            <option value="" title="extensión">Exp</option>
+                                            <option value="LP">LP</option>
+                                            <option value="OR">OR</option>
+                                            <option value="PT">PT</option>
+                                            <option value="CB">CB</option>
+                                            <option value="SC">SC</option>
+                                            <option value="BN">BN</option>
+                                            <option value="PA">PA</option>
+                                            <option value="TJ">TJ</option>
+                                            <option value="CH">CH</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                      <span style="color:#a0a0a0;text-align:left">Fecha de nacimiento</span>
+                                      <div class="input-group input-group-lg flex-nowrap">
+                                        <input type="date" class="form-control form-control-lg" name="fechaNac" required/>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                      <span style="color:#a0a0a0;text-align:left">Estado Civil</span>
+                                      <select id="estado_civil" name="estadoCivil" class="form-select pl-2">
+                                        <option value="" disabled selected>- Seleccionar -</option>
+                                        <option value="SOLTERO (A)">SOLTERO (A)</option>
+                                        <option value="CASADO (A)">CASADO (A)</option>
+                                        <option value="VIUDO (A)">VIUDO (A)</option>
+                                        <option value="DIVORCIADO (A)">DIVORCIADO (A)</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                      <span class="text-secondary">- Carnet de Identidad (Escaneado PDF)</span>
+                                      <div class="input-group">                      
+                                        <input type="file" class="form-control filePdf" accept=".pdf" data-filename="ci" required>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <ul class="list-inline pull-right">
+                                      <li><button type="button" class="btn btn-primary next-step">Siguiente</button></li>
+                                  </ul>
+                              </div>
+                              <div class="tab-pane" role="tabpanel" id="step2">
+                                  <h4 class="text-center">Datos Personales</h4>
+                                  <div class="row mb-4 mt-4">
+                                    <div class="col-md-12 mt-3">
+                                      <div class="form-outline">
+                                        <input type="text" name="lugar_nac" class="form-control form-control-lg" required>
+                                        <label class="form-label">Lugar de Nacimiento</label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                      <span style="color:#C0C0C0;">Su dirección actual</span>
+                                      <div class="form-outline">
+                                        <input type="text" class="form-control form-control-lg" name="ciudad">
+                                        <label class="form-label">Ciudad</label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                      <div class="form-outline">
+                                        <input type="text" class="form-control form-control-lg" name="zona">
+                                        <label class="form-label">Zona</label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <ul class="list-inline pull-right">
+                                      <li><button type="button" class="btn btn-outline-primary prev-step">Back</button></li>
+                                      <li><button type="button" class="btn btn-primary next-step">Continue</button></li>
+                                  </ul>
+                              </div>
+                              <div class="tab-pane" role="tabpanel" id="step3">
+                                  <h4 class="text-center">Step 3</h4>
+                                    <div class="row">
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>Account Name *</label> 
+                                          <input class="form-control" type="text" name="name" placeholder=""> 
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>Demo</label> 
+                                          <input class="form-control" type="text" name="name" placeholder=""> 
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>Inout</label> 
+                                          <input class="form-control" type="text" name="name" placeholder=""> 
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>Information</label> 
+                                          <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="customFile">
+                                            <label class="custom-file-label" for="customFile">Select file</label>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>Number *</label> 
+                                          <input class="form-control" type="text" name="name" placeholder=""> 
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>Input Number</label> 
+                                          <input class="form-control" type="text" name="name" placeholder=""> 
+                                      </div>
+                                  </div>
+                                      </div>
+                                  <ul class="list-inline pull-right">
+                                      <li><button type="button" class="default-btn prev-step">Back</button></li>
+                                      <li><button type="button" class="default-btn next-step skip-btn">Skip</button></li>
+                                      <li><button type="button" class="default-btn next-step">Continue</button></li>
+                                  </ul>
+                              </div>
+                              <div class="tab-pane" role="tabpanel" id="step4">
+                                  <h4 class="text-center">Step 4</h4>
+                                  <div class="all-info-container">
+                                      <div class="list-content">
+                                          <a href="#listone" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Collapse 1 <i class="fa fa-chevron-down"></i></a>
+                                          <div class="collapse" id="listone">
+                                              <div class="list-box">
+                                                  <div class="row">
+                                                      
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>First and Last Name *</label> 
+                                                              <input class="form-control" type="text"  name="name" placeholder="" disabled="disabled"> 
+                                                          </div>
+                                                      </div>
+                                                      
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>Phone Number *</label> 
+                                                              <input class="form-control" type="text" name="name" placeholder="" disabled="disabled"> 
+                                                          </div>
+                                                      </div>
+                                                      
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="list-content">
+                                          <a href="#listtwo" data-toggle="collapse" aria-expanded="false" aria-controls="listtwo">Collapse 2 <i class="fa fa-chevron-down"></i></a>
+                                          <div class="collapse" id="listtwo">
+                                              <div class="list-box">
+                                                  <div class="row">
+                                                      
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>Address 1 *</label> 
+                                                              <input class="form-control" type="text" name="name" placeholder="" disabled="disabled"> 
+                                                          </div>
+                                                      </div>
+                                                      
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>City / Town *</label> 
+                                                              <input class="form-control" type="text" name="name" placeholder="" disabled="disabled"> 
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>Country *</label> 
+                                                              <select name="country2" class="form-control" id="country2" disabled="disabled">
+                                                                  <option value="NG" selected="selected">Nigeria</option>
+                                                                  <option value="NU">Niue</option>
+                                                                  <option value="NF">Norfolk Island</option>
+                                                                  <option value="KP">North Korea</option>
+                                                                  <option value="MP">Northern Mariana Islands</option>
+                                                                  <option value="NO">Norway</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                      
+                                                      
+                                                      
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>Legal Form</label> 
+                                                              <select name="legalform2" class="form-control" id="legalform2" disabled="disabled">
+                                                                  <option value="" selected="selected">-Select an Answer-</option>
+                                                                  <option value="AG">Limited liability company</option>
+                                                                  <option value="GmbH">Public Company</option>
+                                                                  <option value="GbR">No minimum capital, unlimited liability of partners, non-busines</option>
+                                                              </select> 
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>Business Registration No.</label> 
+                                                              <input class="form-control" type="text" name="name" placeholder="" disabled="disabled"> 
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>Registered</label> 
+                                                              <select name="vat2" class="form-control" id="vat2" disabled="disabled">
+                                                                  <option value="" selected="selected">-Select an Answer-</option>
+                                                                  <option value="yes">Yes</option>
+                                                                  <option value="no">No</option>
+                                                              </select> 
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>Seller</label> 
+                                                              <input class="form-control" type="text" name="name" placeholder="" disabled="disabled"> 
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-12">
+                                                          <div class="form-group">
+                                                              <label>Company Name *</label> 
+                                                              <input class="form-control" type="password" name="name" placeholder="" disabled="disabled"> 
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="list-content">
+                                          <a href="#listthree" data-toggle="collapse" aria-expanded="false" aria-controls="listthree">Collapse 3 <i class="fa fa-chevron-down"></i></a>
+                                          <div class="collapse" id="listthree">
+                                              <div class="list-box">
+                                                  <div class="row">
+                                                      
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>Name *</label> 
+                                                              <input class="form-control" type="text" name="name" placeholder=""> 
+                                                          </div>
+                                                      </div>
+                                                      
+                                                      
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <label>Number *</label> 
+                                                              <input class="form-control" type="text" name="name" placeholder=""> 
+                                                          </div>
+                                                      </div>
+                                                      
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  
+                                  <ul class="list-inline pull-right">
+                                      <li><button type="button" class="default-btn prev-step">Back</button></li>
+                                      <li><button type="button" class="default-btn next-step">Finish</button></li>
+                                  </ul>
+                              </div>
+                              <div class="clearfix"></div>
+                          </div>
+                          
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- End Multi step form -->   
   <section
     class="skrollable skrollable-between u-align-center u-clearfix u-container-align-center u-image u-shading u-section-2"
     id="carousel_e141" src="" data-image-width="1620" data-image-height="1080">
@@ -88,62 +414,8 @@ if(isset($_SESSION['idSocio'])){
                     <div class="container">
                       <div class="row mb-4">
                         <div class="input-group flex-nowrap input-group-lg">
-                          <span class="input-group-text"><i class="fas fa-circle-user"></i></span>
-                          <input type="text" class="form-control" name="paterno" placeholder="Ap. Paterno" required>
-                          <input type="text" class="form-control" name="materno" placeholder="Ap. Materno" required>
-                        </div>
-                      </div>
-                      <div class="row mb-4">
-                        <div class="input-group flex-nowrap input-group-lg">
-                          <span class="input-group-text"><i class="fas fa-circle-user"></i></span>
-                          <input type="text" class="form-control" placeholder="Nombres" name="nombres" required />
-                        </div>
-                      </div>
-                      <div class="row mb-4">
-                        <div class="input-group flex-nowrap input-group-lg">
-                          <span class="input-group-text"><i class="fas fa-regular fa-id-card"></i></span>
-                          <input type="text" class="form-control" placeholder="Carnet de identidad" name="ci" required />
-                          <div class="input-group-text p-0" style="width:70px;">
-                            <select id="extension_ci" title="Extendido en..." name="expedido" class="form-select px-1" required style="border:none">
-                              <option value="" title="extensión">S/E</option>
-                              <option value="LP">LP</option>
-                              <option value="OR">OR</option>
-                              <option value="PT">PT</option>
-                              <option value="CB">CB</option>
-                              <option value="SC">SC</option>
-                              <option value="BN">BN</option>
-                              <option value="PA">PA</option>
-                              <option value="TJ">TJ</option>
-                              <option value="CH">CH</option>
-                            </select>
-                          </div>  
-                        </div>
-                      </div>
-                      <div class="row mb-4">
-                        <span style="color:#a0a0a0;text-align:left">Fecha de nacimiento</span>
-                        <div class="input-group flex-nowrap input-group-lg">
-                          <span class="input-group-text"><i class="fas fa-regular fa-calendar"></i></span>
-                          <input type="date" class="form-control" placeholder="Fecha de nacimiento" name="fechaNac" required/>
-                        </div>
-                      </div>
-                      <div class="row mb-4">
-                        <div class="input-group flex-nowrap input-group-lg">
-                          <span class="input-group-text"><i class="fas fa-globe"></i></span>
-                          <input type="text" name="lugar_nac" class="form-control" placeholder="Lugar de nacimiento">
-                        </div>
-                      </div>
-                      <div class="row mb-4">
-                        <div class="input-group flex-nowrap input-group-lg">
                           <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                           <input type="text" class="form-control" placeholder="Tu celular" name="celular" />
-                        </div>
-                      </div>
-                      <div class="row mb-4">
-                        <span style="color:#C0C0C0;">Su dirección actual</span>
-                        <div class="input-group flex-nowrap input-group-lg">
-                          <span class="input-group-text"><i class="fas fa-house-user"></i></span>
-                          <input type="text" class="form-control" name="ciudad" placeholder="Ciudad">
-                          <input type="text" class="form-control" name="zona" placeholder="Zona">
                         </div>
                       </div>
                       <div class="row mb-4">
@@ -151,12 +423,6 @@ if(isset($_SESSION['idSocio'])){
                           <span class="input-group-text"><i class="fas fa-house-user"></i></span>
                           <input type="text" class="form-control" name="avenida" placeholder="Calle/Avenida">
                           <input type="text" class="form-control" name="nroDir" placeholder="Nro. de domicilio">
-                        </div>
-                      </div>
-                      <div class="row">
-                        <span style="color:#8c95cc;text-align:left">- Carnet de Identidad (Escaneado PDF)</span>
-                        <div class="input-group">                      
-                          <input type="file" class="form-control filePdf" accept=".pdf" data-filename="ci" required>
                         </div>
                       </div>
                     </div>  
@@ -175,18 +441,6 @@ if(isset($_SESSION['idSocio'])){
                         <div class="input-group flex-nowrap input-group-lg">
                           <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                           <input type="email" class="form-control" placeholder="Tu correo electrónico" name="correoElec" required />
-                        </div>
-                      </div>
-                      <div class="row mb-4">
-                        <div class="input-group flex-nowrap input-group-lg">
-                          <span class="input-group-text"><i class="fas fa-ring"></i></span>
-                          <select id="estado_civil" name="estadoCivil" class="form-select pl-2">
-                            <option value=""> Estado civil</option>
-                            <option value="SOLTERO (A)">SOLTERO (A)</option>
-                            <option value="CASADO (A)">CASADO (A)</option>
-                            <option value="VIUDO (A)">VIUDO (A)</option>
-                            <option value="DIVORCIADO (A)">DIVORCIADO (A)</option>
-                          </select>
                         </div>
                       </div>
                       <div class="row mb-4">
@@ -322,6 +576,7 @@ if(isset($_SESSION['idSocio'])){
   <!-- MDB -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
   <script type="text/javascript" charset="utf8" src="../static/js/jquery.js"></script>
+  <script src="./js/app.js"></script>
   <script src="./js/register.js"></script>
   <script src="../static/js/bootstrap.min.js"></script>
 </body>
