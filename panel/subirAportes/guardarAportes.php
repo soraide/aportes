@@ -4,13 +4,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require '../phpSpreadsheet/vendor/autoload.php'; // para analizar el excel
 
     if (isset($_FILES['archivoExcel']) && $_FILES['archivoExcel']['error'] === UPLOAD_ERR_OK) {
-        $numeroColumnasEstablecido = 9; //numero de columnas que debe tetner el excel
-        $nombreArchivo = $_FILES['archivoExcel']['name']; //nombre del excel
-        $rutaTemporal = $_FILES['archivoExcel']['tmp_name']; // ruta temporal del excel
         $fechaInput = $_POST['fechaInput'];
         $fechaInputVector = explode('-', $fechaInput); // [0] = anio , [1] = mes
         $gestionAporte = $fechaInputVector[0];
         $mesAporte = $fechaInputVector[1];
+        // Verificar registro anterior de mes y gestion de aportes
+        if(verificarRegistroAnterior($mesAporte,$gestionAporte)){
+            $respuesta = array(
+                "status" => false,
+                "mensaje" => 'Los aportes del mes y la gestion ya fueron registrados.'
+            );
+            echo json_encode($respuesta);
+            die();
+        }
+        $numeroColumnasEstablecido = 8; //numero de columnas que debe tetner el excel
+        $nombreArchivo = $_FILES['archivoExcel']['name']; //nombre del excel
+        $rutaTemporal = $_FILES['archivoExcel']['tmp_name']; // ruta temporal del excel
         // obtenemos listados para asegurar que no introduzcan datos erroneos
         $listaSocio = array();
 
@@ -45,7 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Obtener los valores de la columna en un array
         $columnaSocio = [];
         foreach ($hoja->getColumnIterator('B') as $columna) {
-            foreach ($columna->getCellIterator() as $celda) {
+            //foreach ($columna->getCellIterator(3) as $celda) {
+            foreach ($columna->getCellIterator(2) as $celda) {
                 if ($celda->getRow() > 2) { // Excluir la primera fila
                     $posicion = 'B' . $celda->getRow();
                     $columnaSocio[$posicion] = trim($celda->getValue());
@@ -64,11 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        if ($numeroColumnasEstablecido == $numeroColumnas && $existeSocio) {
+        //if ($numeroColumnasEstablecido == $numeroColumnas && $existeSocio) {
+        if ($existeSocio) {
             // echo "El número de columnas de la hoja activa es: {$numeroColumnas}";
             $valoresFilas = [];
 
-            foreach ($hoja->getRowIterator(3) as $fila) { // Comenzamos desde la fila 2 para omitir los encabezados
+            foreach ($hoja->getRowIterator(2) as $fila) { // Comenzamos desde la fila 2 para omitir los encabezados
                 $valoresFila = [];
                 $celdas = $fila->getCellIterator();
 
@@ -87,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mensaje = "¡Se guardaron los aportes con éxito!";
             foreach ($valoresFilas as $key => $value) {
                 // print_r($value);
-                $sqlInsert = "INSERT INTO tblAporte (idSocio, monto, mes, gestion, observacion) VALUES ('$value[1]', '$value[7]', '$mesAporte', '$gestionAporte', '$value[8]');";
+                $sqlInsert = "INSERT INTO tblAporte (idSocio, monto, mes, gestion, observacion) VALUES ('$value[1]', '$value[7]', '$mesAporte', '$gestionAporte', 'Registro regular');";
                 // echo $sqlInsert;
                 try {
                     // Prepara la consulta
@@ -131,3 +142,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // $redireccion = "";
     // header("Location: $redireccion");
 }
+
+    function verificarRegistroAnterior($mes,$gestion){
+        $pdo = connectToDatabase();
+        $sqlSocio = "SELECT * 
+                     FROM tblAporte
+                     WHERE mes = ?
+                        AND gestion = ? ;";
+        try {
+            // Prepara la consulta
+            $stmt = $pdo->prepare($sqlSocio);
+            // Ejecuta la consulta
+            $stmt->execute([$mes,$gestion]);
+            // Obtiene los resultados como un arreglo asociativo
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Procesa los resultados
+            if(sizeof($results) > 0){
+                return true;
+            }
+        } catch (PDOException $e) {
+            $mensajeError = "Error en la consulta: " . $e->getMessage();
+            echo $mensajeError;
+        }
+        return false;
+    }

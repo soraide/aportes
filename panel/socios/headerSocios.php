@@ -1,14 +1,13 @@
 <div class="content-header">
   <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-12">
-        <input type="hidden" class="form-control" id="pagina" value="1">
-        <h1 class="m-0" style="display:inline-block"> Socios</h1>
-      </div>
+    <div class="d-flex justify-content-between">
+      <input type="hidden" class="form-control" id="pagina" value="1">
+      <h1 class="h1 text-bold text-primary">SOCIOS</h1>
+      <a href="../socios/exportarAportesExcel.php" class="btn btn-success" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> Exportar Excel</a>
     </div>
   </div>
 </div>
-<section class="content">
+<section class="content m-0">
   <div class="container-fluid">
     <div class="row"></div>
     <div class="row">

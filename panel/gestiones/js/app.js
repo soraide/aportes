@@ -33,7 +33,8 @@ async function listarGestiones() {
           <td>${element.idRendimiento}</td>
           <td>${element.gestion}</td>
           <td>${element.rendimiento}</td>
-          <td align="center">${ (new Date().getFullYear()) == element.gestion ? `<button class="btn btn-info" onclick="obtenerGestion(${ element.idRendimiento })">Editar</button>` : 'No disponible' }</td>
+          <td align="center">${ (new Date().getFullYear()) == element.gestion ? `<button class="btn btn-info" onclick="obtenerGestion(${ element.idRendimiento })">Editar</button>` : '' } 
+          ${(element.gestion >= new Date().getFullYear())  ? `<button class="btn btn-danger" onclick="removerGestion(${ element.idRendimiento },${ element.gestion })">Remover</button>` : ''}</td>
         </tr>
       `;
     }
@@ -137,6 +138,36 @@ async function listarGestiones() {
         if(response.success){
           listarGestiones();
           $('#modal-editar-gestion').modal('hide');
+        }
+        console.log(ACCION, response.message);
+      },
+      error: (error) => {
+        console.log(ACCION, error);
+      }
+    });
+  };
+
+  const removerGestion = (id, gestion) => {
+    $('#modal-remover-gestion').modal('show');
+    document.getElementById('modal-remover-gestion').dataset.id = id;
+    $('#remover-gestion').text(gestion);
+  }
+
+  const eliminarGestion = () => {
+    var id = document.getElementById('modal-remover-gestion').dataset.id;
+    const ACCION = "ELIMINAR GESTIÓN";
+    $.ajax({
+      url: "../gestiones/services/remover_gestion.php",
+      data: { 'idRendimiento' : id },
+      type: "POST",
+      dataType: "JSON",
+      beforeSend: (data) => {
+        console.log(ACCION, "Enviando datos...");
+      },
+      success: (response) => {
+        if(response.success){
+          listarGestiones();
+          $('#modal-remover-gestion').modal('hide');
         }
         console.log(ACCION, response.message);
       },

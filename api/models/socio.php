@@ -41,7 +41,7 @@ class SocioModel{
 
 
   public function getSociosEspera(){
-    $sql = "SELECT idSocio, concat(paterno, ' ', materno) as apellidos, nombres, concat(ci,' ',expedido) as ci, fechaNac, celular, lugarNac, grado FROM $this->table WHERE estado LIKE 'ESPERA';";
+    $sql = "SELECT ROW_NUMBER() OVER(ORDER BY idSocio) AS numero, idSocio, concat(paterno, ' ', materno) as apellidos, nombres, concat(ci,' ',expedido) as ci, fechaNac, celular, lugarNac, grado FROM $this->table WHERE estado LIKE 'ESPERA';";
     try {
       $stmt = $this->pdo->prepare($sql);
       $stmt->execute();
@@ -53,7 +53,7 @@ class SocioModel{
   }
 
   public function getSociosAceptados(){
-    $sql = "SELECT idSocio, concat(paterno, ' ', materno) as apellidos, nombres, concat(ci,' ',expedido) as ci, fechaNac, celular, grado, observacion, fechaAceptado FROM $this->table WHERE estado LIKE 'ALTA';";
+    $sql = "SELECT ROW_NUMBER() OVER(ORDER BY idSocio) AS numero, idSocio, concat(paterno, ' ', materno) as apellidos, nombres, concat(ci,' ',expedido) as ci, fechaNac, celular, grado, observacion, fechaAceptado FROM $this->table WHERE estado LIKE 'ALTA';";
     try {
       $stmt = $this->pdo->prepare($sql);
       $stmt->execute();
@@ -65,7 +65,7 @@ class SocioModel{
   }
 
   public function getSociosBaja(){
-    $sql = "SELECT idSocio, concat(paterno, ' ', materno) as apellidos, nombres, concat(ci,' ',expedido) as ci,  celular, grado, fechaAceptado, fechaBaja FROM $this->table WHERE estado LIKE 'BAJA';";
+    $sql = "SELECT ROW_NUMBER() OVER(ORDER BY idSocio) AS numero, idSocio, concat(paterno, ' ', materno) as apellidos, nombres, concat(ci,' ',expedido) as ci,  celular, grado, fechaAceptado, fechaBaja FROM $this->table WHERE estado LIKE 'BAJA';";
     try {
       $stmt = $this->pdo->prepare($sql);
       $stmt->execute();

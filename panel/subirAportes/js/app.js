@@ -21,12 +21,12 @@ function subirArchivo() {
 
   var divArchivoSubido = document.getElementById("archivoExcelSubido");
   divArchivoSubido.innerHTML =
-    "<div class='row'>" +
-    "<div class='col-sm-8'><span style='font-size: 120%;'>" +
+    "<div class='d-flex flex-row justify-content-end'>" +
+    "<span class='mr-2 pl-2 pr-2 flex-grow-1' style='font-size: 120%;'>" +
     archivoNombre +
-    "</span></div>" +
-    '<div class="col-sm-2"><button id="botonActualizar" class="btn btn-success" onclick="procesarExcel()"><span class="glyphicon glyphicon-ok"></span> Guardar</button></div>' +
-    '<div class="col-sm-2"><button class="btn btn-danger" onclick="quitarExcel()"><span class="glyphicon glyphicon-remove"></span> Quitar</button></div>' +
+    "</span>" +
+    '<button id="botonActualizar" class="btn btn-success mr-2" onclick="procesarExcel()"><i class="fa fa-save mr-2" aria-hidden="true"></i> Guardar</button>' +
+    '<button class="btn btn-danger" onclick="quitarExcel()"><i class="fa fa-trash mr-2" aria-hidden="true"></i> Quitar</button>' +
     '</div>';
 }
 
@@ -94,19 +94,4 @@ function ocultarLoader() {
     '<span class="glyphicon glyphicon-ok"></span> Actualizar'
   );
   document.getElementById("loader2").style.display = "none";
-}
-
-const descargarExcelAportes = () => {
-  var fecha = document.getElementById('fecha-aporte').value;
-  var url = "../subirAportes/exportarAportesExcel.php";
-  var form = document.createElement("form");
-  form.setAttribute("method", "post");
-  form.setAttribute("action", url);
-  form.setAttribute("target", "_blank");
-  form.innerHTML = `
-        <input type="hidden" name="fechaAporte" value="${fecha}">
-    `;
-  document.body.appendChild(form);
-  form.submit();
-  form.remove();
 }

@@ -2,6 +2,7 @@
 
     require_once('../../api/config/database.php');
     require '../phpSpreadsheet/vendor/autoload.php'; // para analizar el excel
+    date_default_timezone_set('America/La_Paz');
     use PhpOffice\PhpSpreadsheet\Spreadsheet;
     use PhpOffice\PhpSpreadsheet\Worksheet\PageMargins;
     use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
@@ -13,54 +14,34 @@
 
     $numeroColumnasEstablecido = 9; //numero de columnas que debe tetner el excel
 
-    $response = array('success' => false , 'message' => "");
+    $data = array();
+    $pdo = connectToDatabase();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        if (isset($_POST['fechaAporte'])) {
-            $fechaAporte = $_POST['fechaAporte'];
-            $fechaInputVector = explode('-', $fechaAporte); // [0] = anio , [1] = mes
-            $gestionAporte = $fechaInputVector[0];
-            $mesAporte = $fechaInputVector[1];
-            $data = array();
-            $pdo = connectToDatabase();
-
-            $sql = "SELECT ROW_NUMBER() OVER(ORDER BY ts.paterno) AS numero, ts.numeroTin, ts.paterno, ts.materno, ts.materno, ts.nombres, ts.estado, ta.monto, ta.observacion
-                    FROM tblAporte ta
-                    LEFT JOIN tblSocio ts ON ts.idSocio = ta.idSocio
-                    WHERE ta.mes = ?
-                        AND ta.gestion = ? 
-                    ORDER BY ts.paterno ASC;";
-            try {
-                // Prepara la consulta
-                $stmt = $pdo->prepare($sql);
-                // Ejecuta la consulta
-                $stmt->execute([$mesAporte,$gestionAporte]);
-                // Obtiene los resultados como un arreglo asociativo
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                // Procesa los resultados
-                foreach ($results as $row) {
-                    array_push($data, $row);
-                }
-                if(sizeof($data) > 0){
-                    generarExcel($data, $mesAporte, $gestionAporte);
-                }else{
-                    $response['message'] = "Sin registros en la fecha seleccionada.";
-                }
-            } catch (PDOException $e) {
-                $response['message'] = "Error en la consulta: " . $e->getMessage();
-            }
-            
-        }else{
-            $response['message'] = "La fecha de la gestion es necesario.";
+    $sql = "SELECT ROW_NUMBER() OVER(ORDER BY ts.paterno) AS numero, ts.numeroTin, ts.paterno, ts.materno, ts.materno, ts.nombres, ts.estado, 200 AS monto, 'Aporte regular' AS observacion
+            FROM tblSocio ts
+            WHERE ts.estado = ?
+            ORDER BY ts.paterno ASC;";
+    $estado = "ALTA";
+    try {
+        // Prepara la consulta
+        $stmt = $pdo->prepare($sql);
+        // Ejecuta la consulta
+        $stmt->execute([$estado]);
+        // Obtiene los resultados como un arreglo asociativo
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Procesa los resultados
+        foreach ($results as $row) {
+            array_push($data, $row);
         }
-    }else{
-        $response['message'] = "No method POST.";
+        generarExcel($data);
+    } catch (PDOException $e) {
+        $response['message'] = "Error en la consulta: " . $e->getMessage();
     }
 
-    echo json_encode($response);
-
-    function generarExcel($data, $mes, $gestion){
+    function generarExcel($data){
+        $fecha = new DateTime();
+        $mes = $fecha->format('m');
+        $gestion = $fecha->format('Y');
         // ARMADO DEL EXCEL CON LA LIBRERIA
         // armado del reporte cabecera
         $hoja_calculo = new Spreadsheet();
@@ -146,7 +127,7 @@
             $celda->setValue($row['observacion']);
         }
 
-        $filename = "Aportes-".$mes."-".$gestion;
+        $filename = "Circulo-".$mes."-".$gestion;
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
         header('Cache-Control: max-age=0');

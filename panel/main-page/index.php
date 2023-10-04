@@ -49,7 +49,6 @@ if (isset($_SESSION['idUsuario']) && intval($_SESSION['idUsuario']) > 0) {
   <script src="../DataTables/js/dataTables.responsive.min.js"></script>
   <script src="../DataTables/js/responsive.bootstrap4.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-  <script src="../contenido/js/chart.js/Chart.min.js"></script>
   <script src="../../static/js/sweetalert2.min.js"></script>
 </head>
 
@@ -91,6 +90,7 @@ if (isset($_SESSION['idUsuario']) && intval($_SESSION['idUsuario']) > 0) {
   include('../socios/modalAvisos.php');
   include('../gestiones/modal_adicionar.php');
   include('../gestiones/modal_editar.php');
+  include('../gestiones/modal_remover.php');
   ?>
 
   <div id="shadow" class="popup"></div>
