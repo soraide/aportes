@@ -100,9 +100,6 @@ $("#form_register").on('submit', (e)=>{
   formData.append("benParent", benParent);
   formData.append("benCi", benCi);
 
-  // console.log(formData)
-
-
   // // Enviar el FormData al servidor jquery
   $.ajax({
     url: '../api/socio/create',
@@ -120,9 +117,9 @@ $("#form_register").on('submit', (e)=>{
           showConfirmButton: true,
           timer: 3000
         })
-        // setTimeout(() => {
-        //   window.location.href = '../auth';
-        // }, 3010)
+        setTimeout(() => {
+           window.location.href = '../auth';
+         }, 3010)
       }
       else{
         Swal.fire({
@@ -169,29 +166,77 @@ function tieneExtencion(){
 
 function nuevoBeneficiario(){
   cantBeneficiarios++;
-  const html = `<h5>Beneficiario ${cantBeneficiarios}</h5>
-  <div class="row mb-1">
-    <div class="input-group flex-nowrap input-group-lg">
-      <span class="input-group-text"><i class="fas fa-circle-user"></i></span>
-      <input type="text" class="form-control" name="paternoBen[]" placeholder="Ap. Paterno" required>
-      <input type="text" class="form-control" name="maternoBen[]" placeholder="Ap. Materno" required>
-    </div>
-  </div>
-  <div class="row mb-1">
-    <div class="input-group flex-nowrap input-group-lg">
-      <span class="input-group-text"><i class="fas fa-circle-user"></i></span>
-      <input type="text" class="form-control" placeholder="Nombres" name="nombresBen[]" required />
-    </div>
-  </div>
-  <div class="row mb-4">
-    <span style="color:#a0a0a0;text-align:left">Parentesco y CI</span>
-    <div class="input-group flex-nowrap input-group-lg">
-      <input type="text" class="form-control" name="parentesco[]" placeholder="Parentesco" required>
-      <input type="text" class="form-control" name="ciBen[]" placeholder="3412122 LP" required>
-    </div>
-  </div>
-  <hr>`;
+  const html = `
+      <div class="col-md-12 mt-3" id="bnf-${cantBeneficiarios}">
+        <h5><i class="fas fa-circle-user"></i> Beneficiario ${cantBeneficiarios}</h5>
+        <div class="row">
+          <div class="col-md-12 mt-3">
+            <div class="form-outline">
+              <input type="text" class="form-control" name="nombresBen[]" required />
+              <label class="form-label">Nombres</label>
+              <div class="form-notch">
+                <div class="form-notch-leading" style="width: 9px;"></div>
+                <div class="form-notch-middle" style="width: 60.8px;"></div>
+                <div class="form-notch-trailing"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mt-3">
+            <div class="form-outline">
+              <input type="text" class="form-control" name="paternoBen[]" required>
+              <label class="form-label">Ap. Paterno</label>
+              <div class="form-notch">
+                <div class="form-notch-leading" style="width: 9px;"></div>
+                <div class="form-notch-middle" style="width: 60.8px;"></div>
+                <div class="form-notch-trailing"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mt-3">
+            <div class="form-outline">
+              <input type="text" class="form-control" name="maternoBen[]" required>
+              <label class="form-label">Ap. Materno</label>
+              <div class="form-notch">
+                <div class="form-notch-leading" style="width: 9px;"></div>
+                <div class="form-notch-middle" style="width: 60.8px;"></div>
+                <div class="form-notch-trailing"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mt-3">
+            <div class="form-outline">
+              <input type="text" class="form-control" name="parentesco[]" required>
+              <label class="form-label">Parentezco</label>
+              <div class="form-notch">
+                <div class="form-notch-leading" style="width: 9px;"></div>
+                <div class="form-notch-middle" style="width: 60.8px;"></div>
+                <div class="form-notch-trailing"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mt-3">
+            <div class="form-outline">
+              <input type="text" class="form-control" name="ciBen[]" required>
+              <label class="form-label">Cédula de Identidad</label>
+              <div class="form-notch">
+                <div class="form-notch-leading" style="width: 9px;"></div>
+                <div class="form-notch-middle" style="width: 60.8px;"></div>
+                <div class="form-notch-trailing"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
   $("#beneficiarios").append(html);
+  var height = document.body.scrollHeight;
+  window.scrollTo(0, height);
+}
+
+function removerBeneficiario(){
+  const beneficiario = document.getElementById('bnf-'+cantBeneficiarios);
+  document.getElementById('beneficiarios').removeChild(beneficiario);
+  cantBeneficiarios--;
+  
   var height = document.body.scrollHeight;
   window.scrollTo(0, height);
 }

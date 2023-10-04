@@ -1,10 +1,10 @@
 <?php
 function connectToDatabase()
 {
-  $serverName = "localhost";
+  $serverName = "192.168.10.26";
   $databaseName = "dbAportes";
   $username = "sa2";
-  $password = "#12345678.";
+  $password = "123";
 
   try {
     $pdo = new PDO("sqlsrv:Server=$serverName;Database=$databaseName", $username, $password);
