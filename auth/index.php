@@ -78,27 +78,25 @@
                     <div class="container">
                       <div class="row mb-4">
                         <div class="input-group flex-nowrap input-group-lg">
-                          <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user"></i></span>
                           <input type="email" class="form-control" placeholder="Tu usuario (Correo)" aria-label="Username"
                             aria-describedby="addon-wrapping" id="user" required />
                         </div>
                       </div>
                       <div class="row mb-4">
                         <div class="input-group flex-nowrap input-group-lg">
-                          <span class="input-group-text" id="addon-wrapping"><i class="fas fa-key"></i></span>
                           <input type="password" class="form-control" placeholder="Tu contraseña" aria-label="Username"
                             aria-describedby="addon-wrapping" id="pass" required />
                         </div>
                       </div>
                     </div>
-                    <a href="../home" class="mt-4 btn btn-lg btn-danger text-light"><i
+                    <a href="../home" class="mt-4 btn btn-lg btn-outline-light text-light me-4"><i
                         class="fas fa-xmark"></i> <b>Cancelar</b></a>
-                    <button type="submit" class="btn btn-lg btn-success text-light"><i class="fas fa-sign-in-alt"></i> <b>INICIAR SESIÓN</b></button>
+                    <button type="submit" class="btn btn-lg btn-light text-light text-dark"><i class="fas fa-sign-in-alt"></i> <b>INICIAR SESIÓN</b></button>
                     <div id="mensaje" style="font-size:18px;background-color: blue; margin-top: 15px; border-radius: 6px;">
                     </div>
                     <div class="row mt-4">
-                      <div class="col-12 text-muted">
-                        ¿No tienes una cuenta? <a class="text-primary" href="../register/">Regístrate</a>
+                      <div class="col-12 text-light">
+                        ¿No tienes una cuenta? <a class="text-light" href="../register/"><b>Regístrate</b></a>
                       </div>
                     </div>
                   </div>
