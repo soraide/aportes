@@ -41,7 +41,8 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
   <!-- MDB -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
+  <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />-->
+  <link href="../mdb/css/mdb.min.css" rel="stylesheet" />
   <style>
     @media (max-width: 720px){
       #authForm{
@@ -55,7 +56,7 @@
 </head>
 
 <body data-home-page="../home/" class="u-body u-xl-mode" data-lang="es">
-  <?php include('../common/header.php'); ?>
+  <?php //include('../common/header.php'); ?>
   <section
     class="skrollable skrollable-between u-align-center u-clearfix u-container-align-center u-image u-shading u-section-2"
     id="carousel_e141" src="" data-image-width="1620" data-image-height="1080" style="background-color: rgba(36, 63, 87, 0.8);">
@@ -67,11 +68,11 @@
           </div>
           <div class="col-lg-8 p-4" id="authForm">
             <div class="row justify-content-center">
-              <div class="card" style="max-width:500px;">
+              <div class="card" style="max-width:500px;background-color: rgba(255,255,255,0) !important;">
                 <!-- FORMULARIO -->
                 <form class="login">
-                  <div class="card-header text-start">
-                    <h3 class="card-title text-dark align-left mt-2"><i class="fas fa-table"></i> <b>INGRESAR</b></h3>
+                  <div class="card-header text-center">
+                    <h4 class="card-title text-light mt-2"><b>Iniciar Sesión</b></h4>
                   </div>
                   <div class="card-body">
                     <div class="container">
@@ -90,9 +91,9 @@
                         </div>
                       </div>
                     </div>
-                    <a href="../home" class="mt-4 btn btn-lg btn-rounded btn-danger text-light"><i
+                    <a href="../home" class="mt-4 btn btn-lg btn-danger text-light"><i
                         class="fas fa-xmark"></i> <b>Cancelar</b></a>
-                    <button type="submit" class="btn btn-lg btn-rounded btn-success text-light"><i class="fas fa-sign-in-alt"></i> <b>INICIAR SESIÓN</b></button>
+                    <button type="submit" class="btn btn-lg btn-success text-light"><i class="fas fa-sign-in-alt"></i> <b>INICIAR SESIÓN</b></button>
                     <div id="mensaje" style="font-size:18px;background-color: blue; margin-top: 15px; border-radius: 6px;">
                     </div>
                     <div class="row mt-4">
@@ -109,9 +110,10 @@
       </div>
     </div>
   </section>
-  <?php include('../common/footer.php'); ?>
+  <?php //include('../common/footer.php'); ?>
   <!-- MDB -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+  <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>-->
+  <script type="text/javascript" src="../mdb/js/mdb.min.js"></script>
   <!-- <script defer src="../fontawesome/js/all.js"></script> -->
   <!-- <script src="../fontawesome/js/fontawesome.js"></script> -->
     <script type="text/javascript" charset="utf8" src="../static/js/jquery.js"></script>

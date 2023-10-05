@@ -42,16 +42,17 @@ Our Professionals, ​Start using Our App for free">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
   <!-- MDB -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
+  <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />-->
+  <link href="../mdb/css/mdb.min.css" rel="stylesheet" />
 </head>
 
 <body class="u-body u-xl-mode" data-lang="es">
   <?php 
-  if($sesion){
+  /*if($sesion){
     include('../common/header-log.php');
   }else{
     include('../common/header.php');
-  }
+  }*/
   ?>
   <section
     class="skrollable skrollable-between u-align-center u-clearfix u-container-align-center u-image u-shading u-section-2">
@@ -71,9 +72,9 @@ Our Professionals, ​Start using Our App for free">
           <div class="row mb-4">
             <div class="col-lg-12">
               <a role="button" href="../auth/"
-                class="btn btn-lg btn-light btn-rounded me-2 text-dark"
+                class="btn btn-lg btn-light me-2 text-dark"
                 data-animation-name="customAnimationIn" data-animation-duration="1750" data-animation-delay="500">INICIAR SESIÓN</a>
-              <a href="../register/" class="btn btn-lg btn-outline-light btn-rounded text-white"
+              <a href="../register/" class="btn btn-lg btn-outline-light text-white"
                   data-animation-name="customAnimationIn" data-animation-duration="1750" data-animation-delay="500">REGISTRATE</a>
             </div>
           </div>
@@ -82,9 +83,10 @@ Our Professionals, ​Start using Our App for free">
     </div>
   </section>
 
-  <?php include('../common/footer.php'); ?>
+  <?php //include('../common/footer.php'); ?>
   <!-- MDB -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+  <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>-->
+  <script type="text/javascript" src="../mdb/js/mdb.min.js"></script>
 </body>
 
 </html>

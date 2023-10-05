@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="col-lg-6 p-2">
                                     <div class="d-flex flex-row">
-                                        <input type="file" id="inputArchivo" class="btn btn-success" name="archivoExcel" accept=".xlsx, .xls">
+                                        <input type="file" id="inputArchivo" class="btn btn-success mr-2" name="archivoExcel" accept=".xlsx, .xls">
                                         <button type="button" class="btn btn-primary" onclick="subirArchivo()"><i class="fa fa-upload" aria-hidden="true"></i> Subir Excel</button>
                                     </div>
                                 </div>

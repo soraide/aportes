@@ -36,7 +36,8 @@ if(isset($_SESSION['idSocio'])){
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
   <!-- MDB -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
+  <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />-->
+  <link href="../mdb/css/mdb.min.css" rel="stylesheet" />
   <link href="../static/css/multi-steps.css" rel="stylesheet" />
   <script src="../static/js/sweetalert2.min.js"></script>
   <style>
@@ -370,7 +371,8 @@ if(isset($_SESSION['idSocio'])){
   </section>
 <!-- End Multi step form -->   
   <!-- MDB -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+  <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>-->
+  <script type="text/javascript" src="../mdb/js/mdb.min.js"></script>
   <script type="text/javascript" charset="utf8" src="../static/js/jquery.js"></script>
   <script src="./js/app.js"></script>
   <script src="./js/register.js"></script>
