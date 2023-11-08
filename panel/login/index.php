@@ -21,10 +21,10 @@ if(isset($_SESSION['idUsuario']) && intval($_SESSION['idUsuario']) > 0){
   <title>Login</title>
 </head>
 
-<body style="background-image:url(../images/sativa.png);background-size: auto">
-  <form class="login">
+<body style="background: #BF563F;background-size: auto;">
+  <form class="login" >
     <fieldset>
-      <legend class="legend">INGRESAR</legend>
+      <legend class="legend" style="background: gray;">INGRESAR</legend>
       <div class="input">
         <input type="text" placeholder="Usuario" id="user_name" required />
         <span><i class="fa fa-user"></i></span>

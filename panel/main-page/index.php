@@ -75,7 +75,7 @@ if (isset($_SESSION['idUsuario']) && intval($_SESSION['idUsuario']) > 0) {
 
     <!-- /.content-wrapper -->
     <footer class="main-footer" style="text-align:center">
-      <strong>Copyright &copy;2023 &nbsp;<a href="https://stisbolivia.com">Stis - Bolivia</a>.</strong>
+      <strong>Copyright &copy;2023 &nbsp;<a href="https://Circulo de Oficiales Navales.com">Stis - Bolivia</a>.</strong>
       <div class="float-right d-none d-sm-inline-block">
       </div>
     </footer>

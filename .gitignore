@@ -1,3 +1,4 @@
 cursos/Config
 images/
 api/config/database.php
+api/documents/*
