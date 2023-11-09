@@ -21,20 +21,30 @@ if(isset($_SESSION['idUsuario']) && intval($_SESSION['idUsuario']) > 0){
   <title>Login</title>
 </head>
 
-<body style="background: #BF563F;background-size: auto;">
-  <form class="login" >
-    <fieldset>
-      <legend class="legend" style="background: gray;">INGRESAR</legend>
-      <div class="input">
-        <input type="text" placeholder="Usuario" id="user_name" required />
-        <span><i class="fa fa-user"></i></span>
+<body style="background-image:linear-gradient(0deg, rgba(36, 63, 86, 0.5), rgba(36, 63, 86, 0.5)), url('../../images/background.jpg');background-size: cover"">
+  <form class="login">
+    <div class="card">
+      <div class="card-header text-center">
+        <h5 class="card-title m-0 text-primary">PANEL DE CONTROL</h5>
       </div>
-      <div class="input">
-        <input type="password" placeholder="Password" id="password" required />
-        <span><i class="fa fa-lock"></i></span>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <label>
+              <span class="text-secondary"><i class="fa fa-user"></i> <b>Usuario:</b></span> 
+              <input class="form-control mt-2" type="text" placeholder="Usuario" id="user_name" required />
+            </label>
+          </div>
+          <div class="col-md-12">
+            <label>
+              <span class="text-secondary"><i class="fa fa-lock"></i> <b>Contraseña:</b></span>
+              <input class="form-control mt-2" type="password" placeholder="Password" id="password" required />
+            </label>
+          </div>
+        </div>
       </div>
-      <button type="submit" id="boton-estilo" class="submit"><i class="fa fa-arrow-right"></i></button>
-    </fieldset>
+    </div>
+    <button type="submit" id="boton-estilo" class="submit"><i class="fa fa-arrow-right"></i></button>
     <div id="mensaje">
     </div>
   </form>

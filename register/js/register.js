@@ -54,6 +54,23 @@ const verificaPass = () => {
   }
 }
 
+const form = document.getElementById('form_register');
+const submitButton = document.querySelector('button[type="submit"]');
+submitButton.addEventListener('click', (event) => {
+  //event.preventDefault();
+  if (form.checkValidity() === false) {
+    const invalidFields = form.querySelectorAll(':invalid');
+    const element = invalidFields[0];
+    Swal.fire({
+      title: element.name,
+      position: "bottom-end",
+      text: element.validationMessage,
+      showConfirmButton: false,
+      timer: 3000
+    });
+  }
+});
+
 $("#form_register").on('submit', (e)=>{
   e.preventDefault();
   if(!tieneExtencion()){

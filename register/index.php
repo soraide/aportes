@@ -1,10 +1,12 @@
 <?php 
-session_start();
+  session_start();
 
-if(isset($_SESSION['idSocio'])){
-  header("Location: ../main-page");
-  die();
-}
+  if(isset($_SESSION['idSocio'])){
+    header("Location: ../main-page");
+    die();
+  }
+
+  date_default_timezone_set('America/La_Paz');
 ?>
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="es">
@@ -123,7 +125,7 @@ if(isset($_SESSION['idSocio'])){
                       </div>
                       <div class="col-md-9 mt-3">
                         <div class="form-outline">
-                          <input type="text" class="form-control form-control-lg" name="ci" required />
+                          <input type="number" class="form-control form-control-lg" name="ci" required />
                           <label class="form-label">Cédula de Identidad</label>
                         </div>
                       </div>
@@ -146,7 +148,7 @@ if(isset($_SESSION['idSocio'])){
                       <div class="col-md-6 mt-3">
                         <span class="text-info"><i>Fecha de nacimiento</i></span>
                         <div class="input-group input-group-lg flex-nowrap">
-                          <input type="date" class="form-control form-control-lg" name="fechaNac" required/>
+                          <input type="date" class="form-control form-control-lg" name="fechaNac" required max="<?= (new DateTime())->modify('-17 years')->format("Y-m-d") ?>"/>
                         </div>
                       </div>
                       <div class="col-md-6 mt-3">
@@ -182,7 +184,7 @@ if(isset($_SESSION['idSocio'])){
                         </div>
                         <div class="col-md-6 mt-3">
                           <div class="form-outline">
-                            <input type="text" class="form-control form-control-lg" name="celular" />
+                            <input type="number" class="form-control form-control-lg" name="celular" />
                             <label class="form-label">Celular</label>
                           </div>
                         </div>
@@ -203,7 +205,7 @@ if(isset($_SESSION['idSocio'])){
                         </div>
                         <div class="col-md-6 mt-3">
                           <div class="form-outline">
-                            <input type="text" class="form-control form-control-lg" name="nroDir">
+                            <input type="number" class="form-control form-control-lg" name="nroDir">
                             <label class="form-label">Numero</label>
                           </div>
                         </div>
@@ -272,7 +274,7 @@ if(isset($_SESSION['idSocio'])){
                       </div>
                       <div class="col-md-6 mt-3">
                         <div class="form-outline">
-                          <input type="text" class="form-control form-control-lg" name="promocion" required />
+                          <input type="number" class="form-control form-control-lg" name="promocion" required max="3000" min="1900"/>
                           <label class="form-label">Año de Promoción ENM</label>
                         </div>
                       </div>
@@ -284,13 +286,13 @@ if(isset($_SESSION['idSocio'])){
                       </div>
                       <div class="col-md-6 mt-3">
                         <div class="form-outline">
-                          <input type="text" class="form-control form-control-lg" name="numeroTin" required />
+                          <input type="number" class="form-control form-control-lg" name="numeroTin" required />
                           <label class="form-label">Número de T.I.N.</label>
                         </div>
                       </div>
                       <div class="col-md-6 mt-3">
                         <div class="form-outline">
-                          <input type="text" class="form-control form-control-lg" name="codBoleta" required />
+                          <input type="number" class="form-control form-control-lg" name="codBoleta" required />
                           <label class="form-label">Código Boleta</label>
                         </div>
                       </div>
