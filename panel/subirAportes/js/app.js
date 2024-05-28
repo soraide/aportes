@@ -16,32 +16,35 @@ async function subirAportes() {
 }
 
 function subirArchivo() {
-  var archivoInput = document.getElementById("inputArchivo");
+  var archivoInput = document.getElementById('archivo-excel');
   var archivoNombre = archivoInput.files[0].name;
 
   var divArchivoSubido = document.getElementById("archivoExcelSubido");
-  divArchivoSubido.innerHTML =
-    "<div class='d-flex flex-row justify-content-end'>" +
-    "<span class='mr-2 pl-2 pr-2 flex-grow-1' style='font-size: 120%;'>" +
-    archivoNombre +
-    "</span>" +
-    '<button id="botonActualizar" class="btn btn-success mr-2" onclick="procesarExcel()"><i class="fa fa-save mr-2" aria-hidden="true"></i> Guardar</button>' +
-    '<button class="btn btn-danger" onclick="quitarExcel()"><i class="fa fa-trash mr-2" aria-hidden="true"></i> Quitar</button>' +
-    '</div>';
+  divArchivoSubido.innerHTML = `
+    <div class="d-flex p-3">
+      <span class="text-bold text-secondary m-0">
+      <i class="fa fa-file-excel mr-2" aria-hidden="true"></i>${archivoNombre}
+      </span> 
+    </div>
+    <div class="d-flex bd-highlight">
+      <button id="botonActualizar" class="btn btn-success mr-2 flex-fill bd-highlight" onclick="procesarExcel()"><i class="fa fa-save mr-2" aria-hidden="true"></i> Guardar</button>
+      <button class="btn btn-danger flex-fill bd-highlight" onclick="quitarExcel()"><i class="fa fa-trash mr-2" aria-hidden="true"></i> Quitar</button>
+    </div>
+  `;
 }
 
 function procesarExcel() {
   // Aquí puedes realizar las acciones para procesar el Excel sin cambiar de página
   console.log("Procesando el Excel...");
   mostrarLoader();
-  var archivoInput = document.getElementById("inputArchivo");
-  var fechaInput = document.getElementById("inputFecha");
+  var archivoInput = document.getElementById('archivo-excel');
+  var fechaInput = document.getElementById('mes-gestion');
   var archivo = archivoInput.files[0];
   var fecha = fechaInput.value;
 
   var formData = new FormData();
-  formData.append("archivoExcel", archivo);
-  formData.append("fechaInput", fecha);
+  formData.append("archivo", archivo);
+  formData.append("fecha", fecha);
 
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "../subirAportes/guardarAportes.php", true);
@@ -77,7 +80,7 @@ function quitarExcel() {
   var divArchivoSubido = document.getElementById("archivoExcelSubido");
   divArchivoSubido.innerHTML = "";
 
-  var archivoInput = document.getElementById("inputArchivo");
+  var archivoInput = document.getElementById('archivo-excel');
   archivoInput.value = ""; // Limpiar el campo de entrada de archivo
 }
 

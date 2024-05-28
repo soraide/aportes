@@ -13,7 +13,7 @@
 
             $idRendimiento = $_GET['idRendimiento'];
 
-            $sql = "SELECT * FROM tblRendimiento WHERE idRendimiento = ? ;";
+            $sql = "SELECT * FROM tblGestion WHERE idGestion = ? ;";
 
             try {
                 // Prepara la consulta

@@ -23,25 +23,7 @@
             </div>
           </div>
           <div class="card-body">
-            <div id="for-pagination1" style="text-align:center"></div>
-            <div id="afiliados" style="margin:0 10px;">
-              <table id="t_gestiones" class="table table-bordered table-striped" style="width:100%">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Gestion</th>
-                    <th>Rendimiento</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody id="t_body_gestiones">
-
-                </tbody>
-              </table>
-            </div>
-            <div id="for-pagination2" style="text-align:center"></div>
-          </div>
-          <div class="card-footer">
+            <div id="afiliados" style="margin:0 10px;"></div>
           </div>
         </div>
       </section>

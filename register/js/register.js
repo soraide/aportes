@@ -1,13 +1,11 @@
 let filesPdf = new FormData();
-let cantBeneficiarios = 1;
+let cantBeneficiarios = 0;
 $(document).ready(() => {
-  $("#btn-submit").prop('disabled',true);
 
-
-  $("#pass").focus(()=>{
+  $("#password").focus(()=>{
     verificaPass();
   });
-  $("#pass").keyup(()=>{
+  $("#password").keyup(()=>{
     verificaPass();
   })
 
@@ -22,13 +20,6 @@ $(document).ready(() => {
         return false; // Salir del bucle cuando se encuentra un campo vacío
       }
     });
-
-    // Habilitar o deshabilitar el botón de envío según la validación
-    if (isFormValid) {
-      $('#btn-submit').prop('disabled', false);
-    } else {
-      $('#btn-submit').prop('disabled', true);
-    }
   });
 })
 
@@ -43,18 +34,13 @@ $("#flexCheckChecked").on('change', () => {
 
 
 const verificaPass = () => {
-  var password = $("#pass").val();
+  const passwordField = document.getElementById('password');
+  var password = passwordField.value;
   var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
-  if (!passwordRegex.test(password)) {
-    $("#btn-submit").prop('disabled',true);
-    $("#verifyPass").show();
-  }else{
-    $("#verifyPass").hide();
-    $("#btn-submit").prop('disabled',false);
-  }
+  passwordField.setCustomValidity(!passwordRegex.test(password) ? 'La contraseña debe tener 8 caracteres alfanuméricos' : '');
 }
 
-const form = document.getElementById('form_register');
+/*const form = document.getElementById('form_register');
 const submitButton = document.querySelector('button[type="submit"]');
 submitButton.addEventListener('click', (event) => {
   //event.preventDefault();
@@ -69,13 +55,11 @@ submitButton.addEventListener('click', (event) => {
       timer: 3000
     });
   }
-});
+});*/
 
 $("#form_register").on('submit', (e)=>{
   e.preventDefault();
-  if(!tieneExtencion()){
-    return;
-  }
+  
   var formData = new FormData();
   var formFields = $(e.target).serializeArray();
 
@@ -168,85 +152,26 @@ $(".filePdf").on('change', (e) => {
   $(e.target).addClass('is-valid');
 })
 
-
-function tieneExtencion(){
-  var value = $("#extension_ci").val();
-  if(value != ""){
-    $("#btn-submit").prop('disabled',false);
-  }else{
-    $("#checkPoliticas").html('| Seleccione la extensión de su carnet')
-    $("#btn-submit").prop('disabled',true);
-    return false;
-  }
-  return true;
-}
-
 function nuevoBeneficiario(){
   cantBeneficiarios++;
-  const html = `
-      <div class="col-md-12 mt-3" id="bnf-${cantBeneficiarios}">
-        <h5><i class="fas fa-circle-user"></i> Beneficiario ${cantBeneficiarios}</h5>
-        <div class="row">
-          <div class="col-md-12 mt-3">
-            <div class="form-outline">
-              <input type="text" class="form-control" name="nombresBen[]" required />
-              <label class="form-label">Nombres</label>
-              <div class="form-notch">
-                <div class="form-notch-leading" style="width: 9px;"></div>
-                <div class="form-notch-middle" style="width: 60.8px;"></div>
-                <div class="form-notch-trailing"></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 mt-3">
-            <div class="form-outline">
-              <input type="text" class="form-control" name="paternoBen[]" required>
-              <label class="form-label">Ap. Paterno</label>
-              <div class="form-notch">
-                <div class="form-notch-leading" style="width: 9px;"></div>
-                <div class="form-notch-middle" style="width: 60.8px;"></div>
-                <div class="form-notch-trailing"></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 mt-3">
-            <div class="form-outline">
-              <input type="text" class="form-control" name="maternoBen[]" required>
-              <label class="form-label">Ap. Materno</label>
-              <div class="form-notch">
-                <div class="form-notch-leading" style="width: 9px;"></div>
-                <div class="form-notch-middle" style="width: 60.8px;"></div>
-                <div class="form-notch-trailing"></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 mt-3">
-            <div class="form-outline">
-              <input type="text" class="form-control" name="parentesco[]" required>
-              <label class="form-label">Parentezco</label>
-              <div class="form-notch">
-                <div class="form-notch-leading" style="width: 9px;"></div>
-                <div class="form-notch-middle" style="width: 60.8px;"></div>
-                <div class="form-notch-trailing"></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 mt-3">
-            <div class="form-outline">
-              <input type="text" class="form-control" name="ciBen[]" required>
-              <label class="form-label">Cédula de Identidad</label>
-              <div class="form-notch">
-                <div class="form-notch-leading" style="width: 9px;"></div>
-                <div class="form-notch-middle" style="width: 60.8px;"></div>
-                <div class="form-notch-trailing"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>`;
-  $("#beneficiarios").append(html);
-  var height = document.body.scrollHeight;
-  window.scrollTo(0, height);
+  $.ajax({
+    url: 'components/view_beneficiario.php',
+    type: 'POST',
+    data: { 'id': cantBeneficiarios },
+    dataType: 'TEXT',
+    success: function(response) {
+      const content = textToHtml(response);
+      const container = document.getElementById('beneficiarios');
+      container.appendChild(content);
+      loadSelect(`expedido-id-beneficiario-${cantBeneficiarios}`, expedidos, ['idExpedicion', 'acronimo']);
+      loadSelect(`parentesco-id-beneficiario-${cantBeneficiarios}`, parentescos, ['idParentesco', 'parentesco']);
+      var height = document.body.scrollHeight;
+      window.scrollTo(0, height);
+    },
+    error: function(response) {
+      console.log(response);
+    }
+  })
 }
 
 function removerBeneficiario(){
@@ -257,3 +182,56 @@ function removerBeneficiario(){
   var height = document.body.scrollHeight;
   window.scrollTo(0, height);
 }
+
+document.getElementById('btn-obscure-password').onclick = ( ) => {
+  const pass = document.getElementById('password');
+  const isObscure = pass.dataset.obscure == '1';
+  pass.dataset.obscure = isObscure ? '0' : '1';
+  pass.type = isObscure ? 'text' : 'password';
+}
+
+const validarDatosRegistro = () => {
+
+  const forms = [
+    document.getElementById('form-datos-personales'),
+    document.getElementById('form-datos-ubicacion'),
+    document.getElementById('form-datos-militares'),
+    document.getElementById('form-datos-beneficiarios')
+  ];
+
+  for(i = 0 ; i < forms.length ; i++){
+    if(!isFormValidity(forms[i])){
+      Swal.fire({
+        icon: 'error',
+        title: 'Registrar Socio',
+        text: `Complete los campos marcados en la ${forms[i].dataset.name}`,
+        showConfirmButton: true,
+        timer: 1900
+      })
+      return;
+    }
+  }
+
+  servicioRegistrarSocio(forms);
+
+};
+
+const servicioRegistrarSocio = async (forms) => {
+  const btnRegistrar = document.getElementById('btn-submit');
+  const ACCION = 'REGISTRAR SOCIO';
+  btnRegistrar.disabled = true;
+  const request = await registrarSocio(forms);
+  if(request.success){
+      setTimeout(() => {
+          location.href = '../auth';
+      }, 2000);
+  }
+  btnRegistrar.disabled = request.success;
+  Swal.fire({
+    icon: request.success ? 'success' : 'error',
+    title: 'Registrar Socio',
+    text: `${request.message}`,
+    timer: 1900
+  });
+  console.log(ACCION, request.message);
+};

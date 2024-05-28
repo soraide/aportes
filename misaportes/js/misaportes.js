@@ -1,6 +1,6 @@
 $(document).ready(() => {
 
-  const getLiteralMonth = (month) => {
+  /*const getLiteralMonth = (month) => {
     var literal = '';
     switch(month){
       case '01':literal = 'ENERO';break;
@@ -70,7 +70,7 @@ $(document).ready(() => {
     error: function (xhr, status, error) {
       console.log(error, xhr, status);
     }
-  });
+  });*/
 });
 
 

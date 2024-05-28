@@ -297,8 +297,6 @@ input[type="checkbox"]::before{
 input[type="checkbox"]::after{
     height: 5px;
     width: 9px;
-    left: 4px;
-    top: 4px;
 }
 input[type="checkbox"]:checked::after{
     content: "";

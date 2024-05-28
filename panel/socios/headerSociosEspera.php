@@ -22,27 +22,9 @@
             </div>
           </div>
           <div class="card-body">
-            <div id="for-pagination1" style="text-align:center"></div>
             <div id="afiliadosEspera" style="margin:0 10px;">
-              <table id="t_afiliados_espera" class="table table-bordered table-striped" style="width:100%">
-                <thead>
-                  <tr align="center">
-                    <th>Nro.</th>
-                    <th>Apellidos</th>
-                    <th>Nombres</th>
-                    <th>C.I.</th>
-                    <th>Fecha Nac.</th>
-                    <th>Celular</th>
-                    <th>Grado</th>
-                    <th>Opciones</th>
-                  </tr>
-                </thead>
-                <tbody id="afiliados_espera_body">
-
-                </tbody>
-              </table>
+              
             </div>
-            <div id="for-pagination2" style="text-align:center"></div>
           </div>
           <div class="card-footer">
           </div>

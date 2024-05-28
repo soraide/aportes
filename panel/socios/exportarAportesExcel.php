@@ -16,12 +16,14 @@
 
     $data = array();
     $pdo = connectToDatabase();
-
-    $sql = "SELECT ROW_NUMBER() OVER(ORDER BY ts.paterno) AS numero, ts.numeroTin, ts.paterno, ts.materno, ts.materno, ts.nombres, ts.estado, 200 AS monto, 'Aporte regular' AS observacion
-            FROM tblSocio ts
-            WHERE ts.estado = ?
-            ORDER BY ts.paterno ASC;";
     $estado = "ALTA";
+    $sql = "SELECT ROW_NUMBER() OVER(ORDER BY ts.paterno) AS numero, td.nro_tin, ts.paterno, ts.materno, ts.nombre, tr.estado, 200 AS monto, 'Aporte regular' AS observacion
+            FROM tblSocio ts
+            left join tblDetalleMilitar td on td.socio_id = ts.idSocio
+            LEFT JOIN tblRegistro tr on tr.socio_id = ts.idSocio
+            WHERE tr.estado = '$estado'
+            ORDER BY ts.paterno ASC;";
+    
     try {
         // Prepara la consulta
         $stmt = $pdo->prepare($sql);
@@ -101,7 +103,7 @@
             $celda->setValue($row['numero']);
 
             $celda = $hoja_activa->getCell('B' . $num_row);
-            $celda->setValue($row['numeroTin']);
+            $celda->setValue($row['nro_tin']);
 
             $celda = $hoja_activa->getCell('C' . $num_row);
             $celda->setValue($row['paterno']);
@@ -110,7 +112,7 @@
             $celda->setValue($row['materno']);
 
             $celda = $hoja_activa->getCell('E' . $num_row);
-            $celda->setValue($row['nombres']);
+            $celda->setValue($row['nombre']);
 
             $celda = $hoja_activa->getCell('F' . $num_row);
             $celda->setValue($row['estado']);

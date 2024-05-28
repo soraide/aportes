@@ -1,45 +1,36 @@
 
 async function listarGestiones() {
-    remove();
-    document.getElementById("nav_gestiones").className += " active";
-    document.getElementById("carpeta-activa").value = "gestiones";
-    try {
-      const res = await $.ajax({
-        url: "../gestiones/headerGestiones.php",
-        type: "GET",
-        dataType: "html",
-      });
-      $("#all-body").html(res);
-      const data = await $.ajax({
-        url: "../gestiones/services/listar_gestiones.php",
-        type: "GET",
-        dataType: "json",
-      });
-      const contenido = generaFilasGestion(data);
-      $("#t_body_gestiones").html(contenido);
-    } catch (error) {
-      console.log(error);
-    }
+  remove();
+  document.getElementById("nav_gestiones").className += " active";
+  document.getElementById("carpeta-activa").value = "gestiones";
+  try {
+    const res = await $.ajax({
+      url: "../gestiones/headerGestiones.php",
+      type: "GET",
+      dataType: "html",
+    });
+    $("#all-body").html(res);
+    const data = await $.ajax({
+      url: "../../api/gestion/get",
+      type: "GET",
+      dataType: "html",
+    });
+    $("#afiliados").html(data);
+    $('#t_gestiones').DataTable({
+      language: lenguaje,
+      columnDefs: [
+        { orderable: false, targets: [3] }
+      ],
+      order:[],
+      "info": false,
+      "scrollX": true,
+      "scrollY": '50vh'
+    });
+  } catch (error) {
+    console.log(error);
   }
-  
-  function generaFilasGestion(data) {
-    let filas = '';
-    for (let index = 0; index < data.length; index++) {
-      const element = data[index];
-      let fecha = new Date(element.fechaNac);
-      fecha = fecha.toLocaleDateString();
-      filas += `
-        <tr>
-          <td>${element.idRendimiento}</td>
-          <td>${element.gestion}</td>
-          <td>${element.rendimiento}</td>
-          <td align="center">${ (new Date().getFullYear()) == element.gestion ? `<button class="btn btn-info" onclick="obtenerGestion(${ element.idRendimiento })">Editar</button>` : '' } 
-          ${(element.gestion >= new Date().getFullYear())  ? `<button class="btn btn-danger" onclick="removerGestion(${ element.idRendimiento },${ element.gestion })">Remover</button>` : ''}</td>
-        </tr>
-      `;
-    }
-    return filas;
-  }
+}
+
 
   function mostrarLoader() {
     console.log("estas en mostrarLoader");
@@ -78,7 +69,7 @@ async function listarGestiones() {
   const registrarGestion = (data) => {
     const ACCION = "REGISTRAR GESTIÓN";
     $.ajax({
-      url: "../gestiones/services/adicionar_gestion.php",
+      url: "../../api/gestion/create",
       data: data,
       type: "POST",
       dataType: "JSON",
@@ -87,6 +78,7 @@ async function listarGestiones() {
       },
       success: (response) => {
         if(response.success){
+          alertify.success('El usuario fue aceptado con éxito');
           listarGestiones();
           $('#modal-adicionar-gestion').modal('hide');
         }
@@ -112,7 +104,7 @@ async function listarGestiones() {
         console.log(response);
         if(response.success){
           $('#modal-editar-gestion').modal('show');
-          document.getElementById('id-rendimiento-edit').value = response.data.idRendimiento;
+          document.getElementById('id-rendimiento-edit').value = response.data.idGestion;
           document.getElementById('gestion-edit').value = response.data.gestion;
           document.getElementById('rendimiento-edit').value = response.data.rendimiento;
         }
@@ -136,6 +128,7 @@ async function listarGestiones() {
       },
       success: (response) => {
         if(response.success){
+          alertify.success('Gestion modificada con  éxito');
           listarGestiones();
           $('#modal-editar-gestion').modal('hide');
         }
@@ -168,6 +161,7 @@ async function listarGestiones() {
         if(response.success){
           listarGestiones();
           $('#modal-remover-gestion').modal('hide');
+          alertify.success('Gestión eliminada con éxito');
         }
         console.log(ACCION, response.message);
       },

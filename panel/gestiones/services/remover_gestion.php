@@ -13,7 +13,7 @@
             $pdo = connectToDatabase();
             $mensajeError = '';
 
-            $sqlGestiones = "DELETE FROM tblRendimiento WHERE idRendimiento = ? ;";
+            $sqlGestiones = "DELETE FROM tblGestion WHERE idGestion = ? ;";
             try {
                 // Prepara la consulta
                 $stmt = $pdo->prepare($sqlGestiones);

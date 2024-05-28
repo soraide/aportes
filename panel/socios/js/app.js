@@ -26,22 +26,18 @@ async function listarSociosEspera() {
     const tables = await $.ajax({
       url: '../../api/socio/socioEspera',
       type: 'GET',
-      dataType: 'json'
+      dataType: 'html'
     });
-    if (tables.status == 'success') {
-      const contenido = generaFilasEspera(tables.socios);
-      $("#afiliados_espera_body").html(contenido);
-      $('#t_afiliados_espera').DataTable({
-        language: lenguaje,
-        columnDefs: [
-          { orderable: false, targets: [3, 6] }
-        ],
-        "info": false,
-        "scrollX": true,
-        "scrollY": '50vh'
-      });
-      // console.log(tables);
-    }
+    $("#afiliadosEspera").html(tables)
+    $('#t_afiliados_espera').DataTable({
+      language: lenguaje,
+      columnDefs: [
+        { orderable: false, targets: [4, 7] }
+      ],
+      "info": false,
+      "scrollX": true,
+      "scrollY": '50vh'
+    });
   } catch (error) {
     console.log(error);
   }
@@ -59,24 +55,21 @@ async function listarSocios() {
     })
     $("#all-body").html(res)
     const tables = await $.ajax({
-      url: '../../api/socio/getAll',
+      url: '../../api/socio/sociosAceptados',
       type: 'GET',
-      dataType: 'json'
+      dataType: 'html'
     });
-    if (tables.status == 'success') {
-      const contenido = generaFilas(tables.socios);
-      $("#t_body_afiliados").html(contenido);
-      $('#t_afiliados').DataTable({
-        language: lenguaje,
-        columnDefs: [
-          { orderable: false, targets: [3, 7, 8] }
-        ],
-        "info": false,
-        "scrollX": true,
-        "scrollY": '50vh'
-      });
-      // console.log(tables);
-    }
+    
+    $("#afiliados").html(tables);
+    $('#t_afiliados').DataTable({
+      language: lenguaje,
+      columnDefs: [
+        { orderable: false, targets: [3, 7, 8] }
+      ],
+      "info": false,
+      "scrollX": true,
+      "scrollY": '50vh'
+    });    
   } catch (error) {
     console.log(error)
   }
@@ -95,21 +88,19 @@ async function listarSociosBaja() {
     const tables = await $.ajax({
       url: '../../api/socio/getSociosBaja',
       type: 'GET',
-      dataType: 'json'
+      dataType: 'html'
     });
-    if (tables.status == 'success') {
-      const contenido = generaFilasBaja(tables.socios);
-      $("#t_body_socio_baja").html(contenido);
-      $('#t_socios_baja').DataTable({
-        language: lenguaje,
-        columnDefs: [
-          { orderable: false, targets: [5,6] }
-        ],
-        "info": false,
-        "scrollX": true,
-      });
-      // console.log(tables);
-    }
+
+    $("#afiliados").html(tables);
+    $('#t_socios_baja').DataTable({
+      language: lenguaje,
+      columnDefs: [
+        { orderable: false, targets: [5,6] }
+      ],
+      "info": false,
+      "scrollX": true,
+    });
+
   } catch (error) {
     console.log(error)
   }
@@ -205,31 +196,10 @@ function generaFilasBaja(data){
   return filas;
 }
 async function revisarSocio(id) {
-  try {
-    const htmlDatos = await $.ajax({
-      url: `../../api/socio/socioDetalleHtml/${id}`,
-      dataType: 'html',
-      type: 'GET'
-    })
-    const htmlArchivos = await $.ajax({
-      url: `../../api/socio/socioArchivosHtml/${id}`,
-      dataType: 'html',
-      type: 'GET'
-    })
-    $("#afiliadosEspera").html(`<div class="row">
-    ${htmlDatos} ${htmlArchivos}</div>
-    <div class="d-flex justify-content-center mt-3">
-      <button class="btn btn-secondary ml-2" onclick="listarSociosEspera()">Volver</button>
-      <button class="btn btn-danger ml-2" data-id="${id}" data-toggle="modal" data-target="#modal_rechazar">Rechazar</button>
-      <button class="btn btn-success ml-2" data-id="${id}" data-toggle="modal" data-target="#modal_aceptar">Aceptar</button>
-    </div>`);
-  } catch (error) {
-    console.log(error)
-  }
+  $("#afiliadosEspera").load("../../api/socio/revisar?id="+id)
 }
 
 $("#modal_aceptar").on('show.bs.modal', function (e){
-  console.log(e.relatedTarget)
   $("#id_usuario_aceptar").val(e.relatedTarget.dataset.id)
 })
 $("#modal_baja").on('show.bs.modal', function (e){
@@ -253,14 +223,14 @@ async function aceptarSocio(){
   if(id != ''){
     try {
       const res = await $.ajax({
-        url: `../../api/socio/aceptarSocio`,
+        url: `../../api/registro/aceptar`,
         type: 'PUT',
         data: {idUsuario: id, observacion: obs},
         dataType: 'json'
       });
-      if(res.status == 'success'){
+      if(res.success){
         alertify.success('El usuario fue aceptado con éxito');
-        setTimeout(()=>{window.location.reload()},2200);
+        setTimeout(()=>{listarSociosEspera()}, 2000);
       }else{
         alertify.error('Ocurrio un error al aceptar el usuario');
       }
@@ -276,14 +246,14 @@ async function rechazarSocio(){
   if(id != ''){
     try {
       const res = await $.ajax({
-        url: `../../api/socio/rechazarSocio`,
-        type: 'DELETE',
-        data: {idUsuario: id},
+        url: `../../api/registro/rechazar`,
+        type: 'PUT',
+        data: { idUsuario: id },
         dataType: 'json'
       });
-      if(res.status == 'success'){
+      if(res.success){
         alertify.success('El Socio fue rechazado y eliminado de la cola');
-        setTimeout(()=>{window.location.reload()},2200);
+        setTimeout(()=>{listarSociosEspera()},2000);
       }else{
         alertify.error('Ocurrio un error al eliminar al usuario');
       }

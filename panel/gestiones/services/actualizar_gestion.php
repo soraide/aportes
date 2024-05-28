@@ -14,7 +14,7 @@
             $pdo = connectToDatabase();
             $mensajeError = '';
 
-            $sqlGestiones = "UPDATE tblRendimiento SET rendimiento = ? WHERE idRendimiento = ? ;";
+            $sqlGestiones = "UPDATE tblGestion SET rendimiento = ? WHERE idGestion = ? ;";
             try {
                 // Prepara la consulta
                 $stmt = $pdo->prepare($sqlGestiones);

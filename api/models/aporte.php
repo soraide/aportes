@@ -1,14 +1,95 @@
 <?php
-require_once('./config/database.php');
-class AporteModel{
-  private $pdo;
-  private $table = 'tblAporte';
+
+namespace App\Models;
+
+use PDO;
+use App\Models\BaseModel;
+
+class Aporte extends BaseModel{
+  
+  public int $idAporte;
+  public string $idSocio;
+  public float $monto;
+  public string $mes;
+  public int $gestion_id;
+  public string $observacion;
 
   public function __construct(){
-    $this->pdo = connectToDatabase();
+    $this->objectNull();
   }
 
-  public function getAportes($idSocio){
+  public static function getBySocio($idSocio) {
+    $res = null;
+    try {
+      $sql = "SELECT ta.idAporte, ta.monto, ta.mes, ta.observacion,
+                      tg.gestion, tg.rendimiento
+              FROM tblAporte ta
+              LEFT JOIN tblGestion tg ON ta.gestion_id = tg.idGestion
+              WHERE idSocio = $idSocio
+              ORDER BY tg.gestion DESC, ta.mes DESC;";
+      $stmt = connectToDatabase()->prepare($sql);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }catch (\Throwable $th) {
+      //print_r($th);
+    }
+    return $res;
+  }
+
+  public static function getResumenSocio($idSocio) {
+    $res = null;
+    try {
+      $sql = "SELECT tg.idGestion, tg.gestion, COUNT(*) AS cantidad, SUM(ta.monto) AS monto, 
+                      MAX(ta.mes) AS ultimoMes, MIN(ta.mes) AS primerMes, tg.rendimiento
+              FROM tblAporte ta
+              LEFT JOIN tblGestion tg ON ta.gestion_id = tg.idGestion
+              WHERE idSocio = $idSocio
+              GROUP BY tg.idGestion, tg.gestion, tg.rendimiento
+              ORDER BY tg.idGestion ASC;";
+      $stmt = connectToDatabase()->prepare($sql);
+      $stmt->execute();
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }catch (\Throwable $th) {
+      //print_r($th);
+    }
+    return $res;
+  }
+
+  public static function getHistorialSocio($idSocio){
+    $res = null;
+    try {
+      $sql = "SELECT tg.gestion, ta.monto, ta.mes
+              FROM tblAporte ta
+              LEFT JOIN tblGestion tg ON ta.gestion_id = tg.idGestion
+              WHERE ta.idSocio = $idSocio
+              ORDER BY tg.gestion ASC;";
+      $stmt = connectToDatabase()->prepare($sql);
+      $stmt->execute();
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }catch (\Throwable $th) {
+      //print_r($th);
+    }
+    return $res;
+  }
+
+  public static function getAportesMesGestion($mes, $gestion){
+    $res = [];
+    try {
+      $sql = "SELECT * 
+              FROM tblAporte ta
+              LEFT JOIN tblGestion tg on ta.gestion_id = tg.idGestion
+              WHERE ta.mes = '$mes'
+                AND tg.gestion = '$gestion';";
+      $stmt = connectToDatabase()->prepare($sql);
+      $stmt->execute();
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }catch(\Throwable $th){
+        //print_r($th);
+    }
+    return $res;
+  }
+
+  /*public function getAportes($idSocio){
     $res = null;
     try {
       $sql = "SELECT * 
@@ -23,44 +104,7 @@ class AporteModel{
     }
     return $res;
   }
-
-  public function getContributionSummary($idSocio){
-    $res = null;
-    try {
-      $sql = "SELECT ta.gestion, COUNT(*) AS aportes, SUM(ta.monto) AS monto, MAX(ta.mes) AS ultimoMes, MIN(ta.mes) AS primerMes,
-                     (SELECT TOP 1 tr.rendimiento FROM tblRendimiento tr WHERE tr.gestion = ta.gestion ) AS rendimiento
-              FROM tblAporte ta
-              WHERE idSocio = ?
-              GROUP BY gestion
-              ORDER BY gestion ASC;";
-      $stmt = $this->pdo->prepare($sql);
-      $stmt->execute([$idSocio]);
-      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }catch (\Throwable $th) {
-      print_r($th);
-    }
-    return $res;
-  }
-
-  public function getContributionHistory($idSocio){
-    $res = null;
-    try {
-      $sql = "SELECT gestion, monto,
-                CASE mes WHEN '01' THEN 'ENERO' WHEN '02' THEN 'FEBRERO' WHEN '03' THEN 'MARZO'
-                  WHEN '04' THEN 'ABRIL' WHEN '05' THEN 'MAYO' WHEN '06' THEN 'JUNIO'
-                  WHEN '07' THEN 'JULIO' WHEN '08' THEN 'AGOSTO' WHEN '09' THEN 'SEPTIEMBRE'
-                  WHEN '10' THEN 'OCTUBRE' WHEN '11' THEN 'NOVIEMBRE' WHEN '12' THEN 'DICIEMBRE' ELSE 'S/M' END AS mes
-              FROM tblAporte
-              WHERE idSocio = ? 
-              ORDER BY gestion ASC;";
-      $stmt = $this->pdo->prepare($sql);
-      $stmt->execute([$idSocio]);
-      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }catch (\Throwable $th) {
-      print_r($th);
-    }
-    return $res;
-  }
+*/
 
 }
 ?>
