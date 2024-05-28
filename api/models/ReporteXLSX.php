@@ -37,7 +37,7 @@ class ReporteXLSX {
             if($key >= $this->numHeaders){
                 $rowData = array();
                 foreach ($row as $key => $cellValue) {
-                    $rowData[$this->headers[$key]] = $cellValue;
+                    $rowData[isset($this->headers[$key]) ? $this->headers[$key] : 'non'] = $cellValue;
                 }
                 array_push($data, $rowData);
             }

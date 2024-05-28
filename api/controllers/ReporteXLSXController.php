@@ -36,7 +36,7 @@ class ReporteXLSXController {
         $temporal = $file['file']['tmp_name'];
         $name = $file['file']['name'];
         $numHeaders = 1;
-        $xlsx = new ReporteXLSX($name, $temporal, $numHeaders, ['index','codigo','paterno','materno','nombre','estado','moneda','monto','observacion']);
+        $xlsx = new ReporteXLSX($name, $temporal, $numHeaders, ['gestion','codigo','ci','grado','mension','nombres','monto_descuento','monto','observacion']);
         $registros = $xlsx->load();
         $inserts = array();
         $unregistered = array();
@@ -55,7 +55,7 @@ class ReporteXLSXController {
               array_push($unregistered, array(
                 'index' => $registro['index'],
                 'codigo' => $registro['codigo'],
-                'nombre' => $registro['nombre']." ".$registro['paterno']." ".$registro['materno'],
+                'nombre' => $registro['nombres'],
                 'row' => intval($registro['index']) + $numHeaders,
               ));
             }
