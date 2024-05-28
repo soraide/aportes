@@ -277,7 +277,8 @@ async function bajaSocio(){
       });
       if(res.success){
         alertify.success('El socio fue dado de baja');
-        window.open(`../../api/socio/UnsubscribePartnerPDF/${id}`, "_blank");
+        window.open(`../../api/reporte/SocioBajaPDF?id=${id}`, "_blank");
+        location.reload();
       }else{
         alertify.error(res.message);
       }

@@ -56,7 +56,7 @@ class ReporteXLSXController {
                 'index' => $registro['gestion'],
                 'codigo' => $registro['codigo'],
                 'nombre' => $registro['nombres'],
-                'row' => $key + $numHeaders,
+                'row' => ($key + 1) + $numHeaders,
               ));
             }
         }

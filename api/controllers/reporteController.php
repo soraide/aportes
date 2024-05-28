@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Socio;
+use App\Models\Details;
 use App\Models\Expedicion;
 use App\Models\Aporte;
 use App\Models\Reporte;
@@ -66,40 +67,27 @@ class ReporteController {
 
   }
 
-  public static function UnsubscribePartnerPDF($idSocio = null){
-    session_start();
-    $socioModel = new SocioModel();
-    $aporteModel = new AporteModel();
-    $idSocio = ($idSocio == null ? $_SESSION['idSocio'] : $idSocio);
-    $socio = $socioModel->getSocioById($idSocio);
-    $aportes = $aporteModel->getContributionSummary($idSocio);
+  public function SocioBajaPDF($query){
+    $idSocio = isset($query['id']) ? $query['id'] : $_SESSION['idSocio'];
+    $socio = new Socio($idSocio);
 
-    $watermark = base64_encode(file_get_contents('../images/logo_original.png'));
+    $watermark = base64_encode(file_get_contents('./views/reporte/images/logo_original.png'));
 
-    $data = [
-      'header' => [
-        'entity' => 'CIRCULO DE OFICIALES NAVALES',
-        'name' => '"STELLA MARIS"',
-        'country' => 'BOLIVIA',
-        'title' => 'RESOLUCIÓN ADMINISTRATIVA Nº 018/2023',
-        'date' => (new DateTime())->format("Y-m-d"),
-      ],
-      'watermark' => $watermark,
-      'aportes' => $aportes,
-      'socio' => $socio[0],
-      'signature' => [
-        'cfo' => 'CN. DAEN. Miranda Soto Fabian Sergio',
-        'con' => 'CN. CGEN. Claros Ticona Freddy',
-      ]
-    ];
-
-    $pdf = new ReportModel();
-
-    $pdf->loadView('../views/socio/unsubscribe_partner.php', $data);
-
-    $pdf->paginate();
-
-    $pdf->stream("Resumen-Aportes.pdf");
+    $this->data['header']['title'] = 'RESOLUCIÓN ADMINISTRATIVA Nº 018/2023';
+    $this->data['header']['date'] = date("Y-m-d");
+    $this->pdf->loadView('reporte/socio_baja', [
+        'header' => $this->data['header'],
+        'signature' => $this->data['signature'],
+        'watermark' => $watermark,
+        'socio' => $socio,
+        'aportes'  => Aporte::getResumenSocio($socio->idSocio),
+        'detalle' => new Details($socio->idSocio),
+        'expedicion' => new Expedicion($socio->expedido_id),
+        'meses' => $this->pdf->getMonthsLiteral(),
+    ]);
+    
+    $this->pdf->paginate();
+    $this->pdf->stream("Socio-Baja.pdf");
 
   }
 
