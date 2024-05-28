@@ -270,19 +270,20 @@ async function bajaSocio(){
   if(id != ''){
     try {
       const res = await $.ajax({
-        url: `../../api/socio/bajaSocio`,
-        type: 'DELETE',
+        url: `../../api/registro/baja`,
+        type: 'POST',
         data: {idUsuario: id},
         dataType: 'json'
       });
-      if(res.status == 'success'){
+      if(res.success){
         alertify.success('El socio fue dado de baja');
         window.open(`../../api/socio/UnsubscribePartnerPDF/${id}`, "_blank");
       }else{
-        alertify.error('Ocurrio un error al dar de baja al socio');
+        alertify.error(res.message);
       }
     } catch (error) {
       console.log(error)
+      alertify.error('Ocurrio un error al dar de baja al socio');
     }
   }else{
     alertify.error('Ocurrio un error con el usuario');

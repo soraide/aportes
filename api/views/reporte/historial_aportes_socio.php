@@ -1,10 +1,3 @@
-<?php
-    /*$header = $data['header'];
-    $contributions = $data['aportes'];
-    $socio = $data['socio'];*/
-    $index = 1;
-    $total = 0;
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -48,6 +41,15 @@
     </div>
     <div class="row mt-4">
         <div class="col-12" style="font-size: 12px;">
+            <?php
+                if(count($aportes) == 0){
+            ?>
+            <p>
+                El socio no tiene registros de aportes.
+            </p>
+            <?php
+                }else{
+            ?>
             <table class="table table-sm table-bordered" style="width:500px;margin-left:100px;">
                 <thead>
                     <tr class="text-center">
@@ -59,6 +61,7 @@
                 </thead>
                 <tbody>
                     <?php
+                        $total = 0;
                         foreach($aportes as $key => $aporte){
                             $total += floatval($aporte['monto']);
                     ?>
@@ -76,7 +79,10 @@
                     <td scope="col" align="center" colspan="3"><b><?php echo 'TOTAL'; ?></b></td>
                     <td scope="col" align="right"><b><?php echo number_format($total, 2); ?></b></td>
                 </tfoot>
-            </div>
+            </table>
+            <?php
+                }
+            ?>
         </div>
     </div>
 </body>

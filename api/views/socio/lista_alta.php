@@ -34,7 +34,7 @@
             <div class="dropdown-menu">
               <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_detalle" data-id="${element.idSocio}"><i class="fas fa-eye text-info"></i> &nbsp;&nbsp; Detalles</a>
         <a class="dropdown-item editarUsuario" data-id="${element.idSocio}" href="#"><i class="fas fa-edit text-primary"></i> &nbsp;&nbsp;Editar</a>-->
-              <a class="dropdown-item" href="#" data-id="${element.idSocio}" data-toggle="modal" data-target="#modal_baja"><i class="fas fa-external-link-alt text-danger"></i> &nbsp;&nbsp; Dar de baja</a>
+              <a class="dropdown-item" href="#" data-id="<?=$socio['idSocio']?>" data-toggle="modal" data-target="#modal_baja"><i class="fas fa-external-link-alt text-danger"></i> &nbsp;&nbsp; Dar de baja</a>
               <a class="dropdown-item" data-id="${element.idSocio}" href="../../api/reporte/ResumenAportesSocioPDF?id=<?=$socio['idSocio']?>" target="_blank"><i class="fas fa-money-bill text-success"></i> &nbsp;&nbsp;Ver aportes resumen</a>
               <a class="dropdown-item" data-id="${element.idSocio}" href="../../api/reporte/HistorialAportesSocioPDF?id=<?=$socio['idSocio']?>" target="_blank"><i class="fas fa-money-bill text-primary"></i> &nbsp;&nbsp;Ver aportes detallado</a>
             </div>

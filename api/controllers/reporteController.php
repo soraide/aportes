@@ -66,6 +66,43 @@ class ReporteController {
 
   }
 
+  public static function UnsubscribePartnerPDF($idSocio = null){
+    session_start();
+    $socioModel = new SocioModel();
+    $aporteModel = new AporteModel();
+    $idSocio = ($idSocio == null ? $_SESSION['idSocio'] : $idSocio);
+    $socio = $socioModel->getSocioById($idSocio);
+    $aportes = $aporteModel->getContributionSummary($idSocio);
+
+    $watermark = base64_encode(file_get_contents('../images/logo_original.png'));
+
+    $data = [
+      'header' => [
+        'entity' => 'CIRCULO DE OFICIALES NAVALES',
+        'name' => '"STELLA MARIS"',
+        'country' => 'BOLIVIA',
+        'title' => 'RESOLUCIÓN ADMINISTRATIVA Nº 018/2023',
+        'date' => (new DateTime())->format("Y-m-d"),
+      ],
+      'watermark' => $watermark,
+      'aportes' => $aportes,
+      'socio' => $socio[0],
+      'signature' => [
+        'cfo' => 'CN. DAEN. Miranda Soto Fabian Sergio',
+        'con' => 'CN. CGEN. Claros Ticona Freddy',
+      ]
+    ];
+
+    $pdf = new ReportModel();
+
+    $pdf->loadView('../views/socio/unsubscribe_partner.php', $data);
+
+    $pdf->paginate();
+
+    $pdf->stream("Resumen-Aportes.pdf");
+
+  }
+
   public function DetalleSociosAltaPDF(){
     $status = "ALTA";
     $socios = Socio::socioState($status);

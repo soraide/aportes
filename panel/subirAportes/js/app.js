@@ -53,7 +53,6 @@ function procesarExcel() {
     if (xhr.readyState === 4 && xhr.status === 200) {
       // Aquí se puede manejar la respuesta del servidor después de procesar el archivo
       var respuesta = JSON.parse(xhr.responseText);
-      console.log(respuesta);
       if(respuesta.success){
         ocultarLoader();
         // Limpiar el input de archivo

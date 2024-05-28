@@ -35,7 +35,7 @@ class ReporteXLSXController {
         // Obteniendo los datos del archivo en Excel
         $temporal = $file['file']['tmp_name'];
         $name = $file['file']['name'];
-        $numHeaders = 2;
+        $numHeaders = 1;
         $xlsx = new ReporteXLSX($name, $temporal, $numHeaders, ['index','codigo','paterno','materno','nombre','estado','moneda','monto','observacion']);
         $registros = $xlsx->load();
         $inserts = array();

@@ -40,14 +40,23 @@
             </div>
         </div>
         <div class="row mt-2" style="font-size: 12px;">
-            <div class="col-12">
+            <div class="col-lg-12">
                 <b>SOCIO: </b><?=strtoupper($socio->paterno.' '.$socio->materno.' '.$socio->nombre)?><br>
                 <b>CI: </b><?=$socio->ci.' '.$expedicion->acronimo?>
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-12" style="font-size: 12px;">
-                <table class="table table-sm table-bordered" style="width:680px;">
+            <div class="col-lg-12" style="font-size: 12px;">
+                <?php
+                    if(count($aportes) == 0){
+                ?>
+                <p>
+                    El socio no tiene registros de aportes.
+                </p>
+                <?php
+                    }else{
+                ?>
+                <table class="table table-sm table-bordered" style="width:700px;">
                     <thead>
                         <tr>
                             <th scope="col" align="center">N°</th>
@@ -65,14 +74,14 @@
                             foreach($aportes as $key => $aporte){ 
                                 
                                 $acumulado += floatval($aporte['monto']);
-                                $ganancia = $acumulado * floatval($aporte['rendimiento']) / 100;
-                                $capitalizacion = $acumulado + $ganancia;
+                                $ganancia = $aporte['monto'] * floatval($aporte['rendimiento']) / 100;
+                                $capitalizacion = $aporte['monto'] + $ganancia;
 
                                 $numeroAportes += $aporte['cantidad'];
                                 $totalMonto += floatval($aporte['monto']);
                         ?>
                             <tr>
-                                <td align="center"><?=($key + 1)?></td>
+                                <td align="center"><b><?=($key + 1)?></b></td>
                                 <td align="center"><?=$aporte['gestion']?></td>
                                 <td align="center"><?=$aporte['cantidad']?></td>
                                 <td align="center"><?=number_format($aporte['monto'],       2)?></td>
@@ -92,7 +101,10 @@
                         <td scope="col" align="right"><b><?=number_format($totalMonto,      2)?></b></td>
                         <td colspan="4"></td>
                     </tfoot>
-                </div>
+                </table>
+                <?php
+                    }
+                ?>
             </div>
         </div>
     </body>
