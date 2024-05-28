@@ -53,10 +53,10 @@ class ReporteXLSXController {
               ));
             }else{
               array_push($unregistered, array(
-                'index' => $registro['index'],
+                'index' => $registro['gestion'],
                 'codigo' => $registro['codigo'],
                 'nombre' => $registro['nombres'],
-                'row' => intval($registro['index']) + $numHeaders,
+                'row' => $key + $numHeaders,
               ));
             }
         }
