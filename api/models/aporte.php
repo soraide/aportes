@@ -89,6 +89,32 @@ class Aporte extends BaseModel{
     return $res;
   }
 
+  public static function registerFullData($registros){
+    $res = false;
+    try {
+      if(count($registros) > 0){
+        $values = "";
+        foreach($registros as $registro){
+          $values .= "(".$registro['idSocio'].",".$registro['monto'].",'".$registro['mes']."','".
+                      $registro['observacion']."',".$registro['gestion_id']."),";
+        }
+        $values = substr($values, 0, -1);
+        $sql = "INSERT 
+                INTO tblAporte (idSocio,monto,mes,observacion,gestion_id)
+                VALUES $values;";
+                
+        $con = connectToDatabase();
+        
+        $stmt = $con->prepare($sql);
+        
+        return $stmt->execute();
+      }
+    } catch (\Throwable $th) {
+      print_r($th);
+    }
+    return $res;
+  }
+
   /*public function getAportes($idSocio){
     $res = null;
     try {

@@ -25,4 +25,14 @@ class Gestion extends BaseModel{
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
   }
+
+  public static function getGestionByName($name){
+    $sql = "SELECT * 
+            FROM tblGestion tg
+            WHERE tg.gestion = '$name';";
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result;
+  }
 }

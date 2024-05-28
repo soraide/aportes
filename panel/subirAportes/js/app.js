@@ -40,37 +40,47 @@ function procesarExcel() {
   var archivoInput = document.getElementById('archivo-excel');
   var fechaInput = document.getElementById('mes-gestion');
   var archivo = archivoInput.files[0];
-  var fecha = fechaInput.value;
+  const fecha = (fechaInput.value).split('-');
 
   var formData = new FormData();
-  formData.append("archivo", archivo);
-  formData.append("fecha", fecha);
+  formData.append("file", archivo);
+  formData.append('mes', fecha[1]);
+  formData.append('gestion', fecha[0]);
 
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "../subirAportes/guardarAportes.php", true);
+  xhr.open("POST", "../../api/reportexlsx/registrarAportes", true);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
       // Aquí se puede manejar la respuesta del servidor después de procesar el archivo
       var respuesta = JSON.parse(xhr.responseText);
-      if (respuesta.status) {
-        // console.log('se envió correctamente el archivo excel!')
-        // console.log(respuesta.mensaje)
+      console.log(respuesta);
+      if(respuesta.success){
         ocultarLoader();
-        Swal.fire({
-          text: respuesta.mensaje,
-          icon: "success",
-        });
         // Limpiar el input de archivo
         archivoInput.value = null;
         var divArchivoSubido = document.getElementById("archivoExcelSubido");
         divArchivoSubido.innerHTML = '';
-      } else {
-        ocultarLoader();
-        Swal.fire({
-          text: respuesta.mensaje,
-          icon: "warning",
-        });
+        const unregistered = respuesta.data.unregistered;
+        const nroRegistros = respuesta.data.nroRegistrados;
+        $observaciones = `
+          <li class="list-group-item text-success">Aportes registrados: ${nroRegistros}</li>
+        `;
+        if(unregistered.length > 0){
+          unregistered.forEach((socio) => {
+            $observaciones += `
+              <li class="list-group-item text-danger">Usuario no registrado: ${socio.nombre} [Codigo: ${socio.codigo}], en la fila ${socio.row}</li>
+            `;
+          });
+        }
+        document.getElementById('observaciones').innerHTML = $observaciones;
       }
+      ocultarLoader();
+      Swal.fire({
+        title: 'Subir Excel Aportes',
+        text: respuesta.message,
+        icon: respuesta.success ? 'success' : 'warning',
+      });
+      quitarExcel();
     }
   };
   xhr.send(formData);

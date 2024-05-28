@@ -9,7 +9,7 @@
 </div>
 <section class="content mt-0">
     <div class="container-fluid">
-        <div class="row justify-content-center">
+        <div class="d-flex justify-content-center">
             <div class="card" style="max-width: 400px;">
                 <div class="card-header">
                     <label class="text-bold text-secondary m-0 h5">Subir Excel Aportes</label>
@@ -37,11 +37,21 @@
                     </div>
                 </div>
             </div>
-            <div id="loader2" class="loader2" style="display:none;">
-                <div class="loader2-content">
-                    <img style="max-width: 30%;" src="../images/loader.gif" alt="Cargando...">
+            <div class="card" style="max-width: 600px;min-width:500px;">
+                <div class="card-header">
+                    <label class="text-bold text-secondary m-0 h5">Observaciones</label>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group" id="observaciones" style="overflow-y: auto;max-height: 300px;">
+
+                    </ul>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="loader2" class="loader2" style="display:none;">
+        <div class="loader2-content">
+            <img style="max-width: 30%;" src="../images/loader.gif" alt="Cargando...">
         </div>
     </div>
 </section>

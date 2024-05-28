@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Socio;
 use App\Models\Aporte;
+use App\Models\Gestion;
 use App\Models\ReporteXLSX;
 use App\Resources\Request;
 use App\Resources\Response;
@@ -19,36 +20,63 @@ class ReporteXLSXController {
         $mes = $body['mes'];
         $gestion = $body['gestion'];
         $aportes = Aporte::getAportesMesGestion($mes, $gestion);
-        if(count($aportes) == 0){
-            // Obteniendo la lista de socios dados de alta
-            $socios = Socio::socioState('ALTA');
-            // Obteniendo los datos del archivo en Excel
-            $temporal = $file['file']['tmp_name'];
-            $name = $file['file']['name'];
-            $xlsx = new ReporteXLSX($name, $temporal, 2, ['index','codigo','paterno','materno','nombre','estado','moneda','monto','observacion']);
-            $registros = $xlsx->load();
-            $inserts = array();
-            // Verificando la existencia del codigo de usuario (numero tin) en la BD
-            foreach($registros as $key => $registro){
-                //print_r($registro);
-                $lista = array_filter($socios, fn($socio) => $socio['nro_tin'] == $registro['codigo']);
-
-                if(count($lista) > 0){
-                  print_r($lista);
-                  /*array_push($inserts, array(
-                    'idSocio' => $lista[0]['idSocio'],
-                    'monto' => $registro['monto'],
-                    'observacion' => $registro['observacion'],
-                  ));*/
-                  echo "asdasdasd\n";
-                }else{
-                  echo "Socio no encontrado: ".$registro['codigo']."<br>";
-                }
-            }
-            print_r($inserts);
-        }else{
+        if(count($aportes) > 0){
           Response::error_json(['message' => "Mes y gestion registrados con anterioridad."], 200);
+          die();
         }
+        // Verificando la existencia de la gestion en la BD
+        $gestion = Gestion::getGestionByName($gestion);
+        if(!$gestion){
+          Response::error_json(['message' => "La gestion seleccionada no se encuentra registrada."], 200);
+          die();
+        }
+        // Obteniendo la lista de socios dados de alta y la gestion a registrar
+        $socios = Socio::socioState('ALTA');
+        // Obteniendo los datos del archivo en Excel
+        $temporal = $file['file']['tmp_name'];
+        $name = $file['file']['name'];
+        $numHeaders = 2;
+        $xlsx = new ReporteXLSX($name, $temporal, $numHeaders, ['index','codigo','paterno','materno','nombre','estado','moneda','monto','observacion']);
+        $registros = $xlsx->load();
+        $inserts = array();
+        $unregistered = array();
+        // Verificando la existencia del codigo de usuario (numero tin) en la BD
+        foreach($registros as $key => $registro){
+            $lista = array_filter($socios, fn($socio) => $socio['nro_tin'] == $registro['codigo']);
+            if(count($lista) > 0){
+              array_push($inserts, array(
+                'idSocio' => array_pop($lista)['idSocio'],
+                'monto' => $registro['monto'],
+                'mes' => $mes,
+                'observacion' => $registro['observacion'],
+                'gestion_id' => $gestion['idGestion'],
+              ));
+            }else{
+              array_push($unregistered, array(
+                'index' => $registro['index'],
+                'codigo' => $registro['codigo'],
+                'nombre' => $registro['nombre']." ".$registro['paterno']." ".$registro['materno'],
+                'row' => intval($registro['index']) + $numHeaders,
+              ));
+            }
+        }
+
+        if(count($inserts) == 0){
+          Response::error_json(['message' => "El archivo no tiene socios registrados en el sistema."], 200);
+          die();
+        }
+
+        $result = Aporte::registerFullData($inserts);
+        
+        if($result){
+          Response::success_json('Aportes registrados con éxito.', [
+            'nroRegistrados' => count($inserts),
+            'unregistered' => $unregistered
+          ], 200);
+        }else{
+          Response::error_json(['message' => "Se produjo un error al registrar el archivo."], 200);
+        }
+
     }
 
 }
